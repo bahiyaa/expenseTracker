@@ -4,6 +4,7 @@ const app=express();
 const mongoose=require("mongoose");
 const dotenv=require("dotenv");
 require('dotenv').config()
+const expenseEmail=require("./EmailService/Expense")
 
 
 dotenv.config();
@@ -17,6 +18,8 @@ mongoose.connect(process.env.DB_CONNECTION).then(()=>{
 const run=()=>{
     cron.schedule('* * * * * *', () => {
         console.log('running a task every second');
+
+        expenseEmail();
       });
 }
 run();
