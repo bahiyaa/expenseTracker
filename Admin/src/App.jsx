@@ -1,11 +1,12 @@
 import { createBrowserRouter,Outlet,RouterProvider } from "react-router-dom"
 import Home from "./pages/Home"
 import Expense from "./pages/Expense"
-import Allusers from "./pages/Allusers"
 import Navbar from "./components/Navbar"
 import Menu from "./components/Menu"
 import Footer from "./components/Footer"
 import Users from "./pages/Users"
+import Login from "./pages/Login"
+import Income from "./pages/Income"
 
 function App() {
 
@@ -39,8 +40,8 @@ function App() {
           element:<Expense></Expense>
         },
         {
-          path:"/allusers/:id",
-          element:<Allusers></Allusers>
+          path:"/income",
+          element:<Income></Income>
         },
         {
           path:"/users",
@@ -48,9 +49,13 @@ function App() {
         }
       ]
     },
+    {
+      path:"/login",
+      element:<Login></Login>
+    },
     
     
-  ])
+  ]);
 
   return (
     <>
