@@ -7,6 +7,10 @@ import Footer from "./components/Footer"
 import Users from "./pages/Users"
 import Login from "./pages/Login"
 import Income from "./pages/Income"
+import NewUser from "./pages/NewUser"
+import AddIncome from "./pages/AddIncome"
+import AddExpense from "./pages/AddExpense"
+import UpdateIncome from "./pages/UpdateIncome"
 
 function App() {
 
@@ -46,7 +50,23 @@ function App() {
         {
           path:"/users",
           element:<Users></Users>
-        }
+        },
+        {
+          path:"/newuser",
+          element:<NewUser></NewUser>
+        },
+        {
+          path:"/addincome",
+          element:<AddIncome></AddIncome>
+        },
+        {
+          path:"/addexpense",
+          element:<AddExpense></AddExpense>
+        },
+        {
+          path:"/income/:id",
+          element:<UpdateIncome></UpdateIncome>
+        },
       ]
     },
     {

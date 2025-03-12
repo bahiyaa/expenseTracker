@@ -1,6 +1,8 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
 
 const Expense=()=> {
   const columns = [
@@ -42,11 +44,15 @@ const Expense=()=> {
       <div className='m-[30px] p-[20px] bg-[#d9d9d9]'>
             <div className='flex items-center justify-between'>
               <h1 className='m-[20px] text-[20px]'>Expense Details</h1>
+              <Link to='/addexpense'>
               <button className='bg-[#1e1e1e] text-white p-[10px] cursor-pointer rounded'>Add Expense</button>
+              </Link>
+              
             </div>
             <DataGrid rows={rows} columns={columns}
             checkboxSelection
             />
+            
       
           </div>
  
