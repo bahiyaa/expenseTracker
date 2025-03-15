@@ -3,6 +3,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Income from "./pages/Income"
 import Expense from "./pages/Expense"
+import MyPage from "./pages/MyPage"
 
 function App() {
   const router = createBrowserRouter([
@@ -13,6 +14,10 @@ function App() {
     {
       path: "/login",
       element: <Login></Login>
+    },
+    {
+      path: "/mypage",
+      element: <MyPage></MyPage>
     },
     {
       path: "/income",
