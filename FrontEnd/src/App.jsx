@@ -4,6 +4,8 @@ import Login from "./pages/Login"
 import Income from "./pages/Income"
 import Expense from "./pages/Expense"
 import MyPage from "./pages/MyPage"
+import Addincome from "./pages/Addincome"
+import Addexpense from "./pages/Addexpense"
 
 function App() {
   const router = createBrowserRouter([
@@ -24,9 +26,17 @@ function App() {
       element: <Income></Income>
     },
     {
+      path: "/addincome",
+      element: <Addincome></Addincome>
+    },
+    {
       path: "/expense",
       element: <Expense></Expense>
     },
+    {
+      path: "/addexpense",
+      element: <Addexpense></Addexpense>
+    }
 
   ])
 
