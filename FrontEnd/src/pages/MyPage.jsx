@@ -3,10 +3,11 @@ import { FaUser } from 'react-icons/fa'
 import { FaWallet } from "react-icons/fa";
 import { IoCardOutline } from "react-icons/io5";
 import { PiHandCoins } from "react-icons/pi";
+import { Link } from 'react-router-dom';
 
 function MyPage() {
-  const [open,setOpen]=useState(false)
-  const handleOpen=()=>{
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => {
     setOpen(!open)
 
   }
@@ -14,13 +15,17 @@ function MyPage() {
     <div>
       <div className=' relative flex items-end justify-end mr-[20%] mt-[6%] text-white font-semibold cursor-pointer'>
         <div className='flex items-center' onClick={handleOpen}>
-        <FaUser className='mr-[10px]'></FaUser>
-         James Kiran
+          <FaUser className='mr-[10px]'></FaUser>
+          James Kiran
         </div>
-        { open && <div className='absolute top-[20px] right-0 h-[150px] w-[200px] bg-[#d9d9d9] z-[999] shadow-xl'>
+        {open && <div className='absolute top-[20px] right-0 h-[150px] w-[200px] bg-[#d9d9d9] z-[999] shadow-xl'>
           <ul className='flex flex-col items-center justify-center'>
-          <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>Income</li>
-          <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>Expense</li>
+            <Link to='/income'>
+              <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>Income</li>
+            </Link>
+            <Link to='/expense'>
+              <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>Expense</li>
+            </Link>
             <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>statement</li>
             <li className='hover:text-[#fff] text-black my-[5px] cursor-pointer'>Logout</li>
 
