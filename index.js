@@ -2,14 +2,18 @@ const express = require("express");
 
 const cors = require("cors");
 const mongoose= require("mongoose");
+const authRoute=require("./routes/auth")
 require('dotenv').config()
 
 const app=express();
+// MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 
+// ROUTES
 const routes=require("./routes/router")
 app.use("/expenses",routes)
+app.use("/auth",authRoute)
 
 
 // DB CONNECTION

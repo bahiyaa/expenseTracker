@@ -2,9 +2,11 @@ const mongoose = require("mongoose");
 
 const ExpenseSchema = mongoose.Schema({
 
-    label: { type: String, require: true },
-    value: { type: Number, require: true },
-    date: { type: String, require: true }
+    category: { type: String, require: true },
+    Amount: { type: Number, require: true },
+    transactionDate: { type: String, require: true},
+},{
+timestamp:true
 
 });
 
