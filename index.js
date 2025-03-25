@@ -15,10 +15,9 @@ app.use(express.json());
 
 // ROUTES
 const routes=require("./routes/expense")
-app.use("/expenses",routes)
-app.use("/auth",authRoute)
-app.use("/users",userRoute)
-app.use("/expense",expenseRoute)
+app.use("/v1/auth",authRoute)
+app.use("/v1/users",userRoute)
+app.use("/v1/expense",expenseRoute)
 
 
 // DB CONNECTION
