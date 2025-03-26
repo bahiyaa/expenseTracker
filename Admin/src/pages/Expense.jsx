@@ -1,12 +1,14 @@
-import React from 'react'
+import React,{ useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { publicRequest } from '../requestMethods';
 
 
 const Expense=()=> {
+  const [data, setData] = useState([]);
   const columns = [
-      {field:'id',headerName:'ID',width:90},
+      {field:'_id',headerName:'ID',width:90},
       {field:'category',headerName:'Category',width:140},
       {field:'date',headerName:'Transactiion Date',width:130},
       {field:'amount',headerName:'Amount',width:130},
@@ -39,6 +41,8 @@ const Expense=()=> {
       { id:4,category:'Charity',date:'4/20/2025',amount:1200 },
       { id:5,category:'Fees',date:'4/26/2025',amount:1200 },
     ];
+
+    
   return (
   
       <div className='m-[30px] p-[20px] bg-[#d9d9d9]'>

@@ -34,6 +34,11 @@ function Menu() {
       <FaUsers className='mr-[15px]'/>Expense
       </li>
       </Link>
+      <Link to='/users'>
+      <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]' Link to='/expenses'>
+      <FaUsers className='mr-[15px]'/>Users
+      </li>
+      </Link>
       
       
       <hr className='h-[20px]'/>
