@@ -3,9 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { publicRequest } from '../requestMethods';
-
+import { FaEdit } from "react-icons/fa";
 
 const Income = () => {
+
 
   const [data, setData] = useState([]);
 
@@ -20,8 +21,9 @@ const Income = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/expense/${params.row._id}`}>
-              <button className='bg-teal-400 text-white cursor-pointer w-[400px]'>Edit</button>
+            <Link to={`/income/${params.row._id}`}>
+              <button className='cursor-pointer w-[400px]'>
+              <FaEdit  className='text-xl m-[15px] ml-[10px]'/>Edit</button>
             </Link>
 
           </>
@@ -46,7 +48,7 @@ const Income = () => {
     const getIncome = async () => {
 
       try {
-        const res = await publicRequest.get("/expense");
+        const res = await publicRequest.get("/income");
         setData(res.data);
       } catch (error) {
         console.log(error);
@@ -59,7 +61,7 @@ const Income = () => {
 
   const handleDelete = async (id) => {
     try {
-      await publicRequest.delete(`/expense/${id}`);
+      await publicRequest.delete(`/income/${id}`);
       window.location.reload();
 
     } catch (error) {

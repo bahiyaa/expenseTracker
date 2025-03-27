@@ -13,7 +13,7 @@ const AddIncome=()=> {
 
    const handleSubmit = async () => {
     try {
-      await publicRequest.post("/expense",inputs);
+      await publicRequest.post("/income",inputs);
 
       // Clear the input fields
       setInputs({});

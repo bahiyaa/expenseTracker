@@ -2,6 +2,7 @@ import React,{ useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaEdit } from "react-icons/fa";
 import { publicRequest } from '../requestMethods';
 
 
@@ -16,7 +17,8 @@ const Expense=()=> {
         renderCell:()=>{
           return(
             <>
-            <button className='bg-pink-200 text-gray-400 w-[700px]'>Edit</button>
+            <button className='text-black-400 w-[700px] cursor-pointer m-2'>
+               <FaEdit className='text-xl m-[15px] ml-[10px]'/>Edit</button>
             </>
           )
         }

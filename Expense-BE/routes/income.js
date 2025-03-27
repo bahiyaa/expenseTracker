@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const { createExpense, getAllExpense, updateExpense, deleteExpense } = require("../Controllers/expenseController");
+const { createIncome,getAllIncome,updateIncome,deleteIncome} = require("../Controllers/incomeController");
 const { verifyToken, verifyTokenAuthorization } = require("../Middlewares/verifyToken");
 
 
 
 // ADD EXPENSE
 
-router.post("/",createExpense)
+router.post("/",createIncome)
    
 
 // GET ALL EXPENSES
 
-router.get("/",getAllExpense)
+router.get("/",getAllIncome)
 
 // UPDATE EXPENSE
 
-router.put("/:id",updateExpense) 
+router.put("/:id",updateIncome) 
 
 // DELETE AN EXPENSE
-router.delete("/:id",deleteExpense) 
+router.delete("/:id",deleteIncome) 
 
 module.exports = router;
