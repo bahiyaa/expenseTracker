@@ -1,29 +1,52 @@
 const express = require("express");
-
 const cors = require("cors");
 const mongoose= require("mongoose");
-const authRoute=require("./routes/auth")
-require('dotenv').config()
+require("dotenv").config();
 
+
+const authRoute=require("./routes/auth")
 const userRoute=require("./routes/user")
-const expenseRoute=require("./routes/expense")
-const incomeRoute=require("./routes/income")
+const incomeRoute=require("./routes/userincome")
+const expenseRoute=require("./routes/userexpense")
+const adminRoutes = require("./routes/admin");
+const adminIncomeRoutes=require("./routes/adminIncome")
+const adminExpenseRoute=require("./routes/expense")
 
 const app=express();
 // MIDDLEWARE
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:5173", "http://localhost:5174"],
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"]
+  }));
+app.use((req, res, next) => {
+    console.log("Authorization Header:", req.headers.authorization);
+    next();
+});
 app.use(express.json());
 
+// ✅ Debug Middleware to Log All Incoming Requests
+app.use((req, res, next) => {
+    console.log("📝 Request Headers:", req.headers);
+    next();
+});
+
+
 // ROUTES
-const routes=require("./routes/expense")
 app.use("/v1/auth",authRoute)
 app.use("/v1/users",userRoute)
-app.use("/v1/expense",expenseRoute)
-app.use("/v1/income",incomeRoute)
+app.use("/v1/userexpense",expenseRoute)
+app.use("/v1/userincome",incomeRoute)
+app.use("/v1/admin",adminRoutes)
+app.use("/v1/adminincome", adminIncomeRoutes); 
+app.use("/v1/adminexpense", adminExpenseRoute); 
+
+
 
 
 // DB CONNECTION
 console.log("MongoDB URI:", process.env.DB_CONNECTION);
+
 mongoose.connect(process.env.DB_CONNECTION).then((res) =>{
     console.log("DB connection is successfull")
 }).catch((e) =>{

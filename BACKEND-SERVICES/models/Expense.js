@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 
-const ExpenseSchema = mongoose.Schema({
+const ExpenseSchema = new mongoose.Schema(
+  {
+    label: { type: String, required: true },
+    value: { type: Number, required: true },
+    date: { type: String, required: true },
+  },
+  {
+    timestamps: true, // Optional: adds createdAt and updatedAt
+  }
+);
 
-    label: { type: String, require: true },
-    value: { type: Number, require: true },
-    date: { type: String, require: true }
-
-});
-
-module.exports = mongoose.model("expenses", ExpenseSchema)
+module.exports = mongoose.model("Expense", ExpenseSchema);

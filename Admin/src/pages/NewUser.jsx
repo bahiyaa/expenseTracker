@@ -7,98 +7,76 @@ const NewUser = () => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const generatePassword = (length) => {
-    const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numberChars = "0123456789";
-    const specialChars = "!@#$%^&*";
+    const lower = "abcdefghijklmnopqrstuvwxyz";
+    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const nums = "0123456789";
+    const special = "!@#$%^&*";
+    const all = lower + upper + nums + special;
 
-    const allChars = lowerCaseChars + upperCaseChars + numberChars + specialChars;
+    let pass = lower[Math.floor(Math.random() * lower.length)] +
+                upper[Math.floor(Math.random() * upper.length)] +
+                nums[Math.floor(Math.random() * nums.length)] +
+                special[Math.floor(Math.random() * special.length)];
 
-    let password = "";
-
-    // Ensure the password contains at least one of each required type
-    password += lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
-    password += upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
-    password += numberChars[Math.floor(Math.random() * numberChars.length)];
-    password += specialChars[Math.floor(Math.random() * specialChars.length)];
-
-    // Fill the rest of the password length with random characters from all types
-    for (let i = password.length; i < length; i++) {
-      password += allChars[Math.floor(Math.random() * allChars.length)];
+    for (let i = pass.length; i < length; i++) {
+      pass += all[Math.floor(Math.random() * all.length)];
     }
 
-    // Shuffle the characters to ensure a random order
-    password = password.split("").sort(() => 0.5 - Math.random()).join("");
-
-    return password;
+    return pass.split("").sort(() => 0.5 - Math.random()).join("");
   };
 
   const handleSubmit = async () => {
     try {
       const password = generatePassword(12);
-
       await publicRequest.post("/auth/register", { ...inputs, password });
-
-      // Clear the input fields
       setInputs({});
-
-      // Show success toast
-      toast.success("User has been successfully registered and an email has been sent to them!");
-
+      toast.success("✅ User successfully registered!");
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to register the user. Please try again.");
+      console.error(error);
+      toast.error("❌ Registration failed. Please try again.");
     }
   };
 
   return (
-    <div className="m-[30px] bg-[#fff] p-[20px]">
-      <h2 className="font-semibold">New User</h2>
+    <div className="m-8 p-6 bg-card-bg shadow-card rounded-2xl max-w-xl mx-auto">
+      <h2 className="text-2xl font-heading text-text-main mb-6">Register New User</h2>
 
-      <div className="flex flex-col my-[20px]">
-        <label htmlFor="">Full Name</label>
+      <div className="flex flex-col mb-4">
+        <label className="mb-2 text-text-muted font-medium">Full Name</label>
         <input
           type="text"
           placeholder="James Doe"
           name="fullname"
           value={inputs.fullname || ''}
           onChange={handleChange}
-          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+          className="p-3 rounded-xl border border-secondary-accent bg-background text-text-main placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
+          autoComplete="off"
         />
       </div>
-      <div className="flex flex-col my-[20px]">
-        <label htmlFor="">Email</label>
+
+      <div className="flex flex-col mb-6">
+        <label className="mb-2 text-text-muted font-medium">Email</label>
         <input
-          type="text"
+          type="email"
           placeholder="jamesdoe@gmail.com"
           name="email"
           value={inputs.email || ''}
           onChange={handleChange}
-          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
+          className="p-3 rounded-xl border border-secondary-accent bg-background text-text-main placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
+          autoComplete="off"
         />
       </div>
-      
-      {/* <div className="flex flex-col my-[20px]">
-        <label htmlFor="">Address</label>
-        <input
-          type="text"
-          placeholder="Laura Avenue, Sydney, Australia"
-          name="address"
-          value={inputs.address || ''}
-          onChange={handleChange}
-          className="border-2 border-[#555] border-solid p-[10px] w-[300px]"
-        />
-      </div> */}
 
       <button
-        className="bg-[#1E1E1E] cursor-pointer text-white p-[10px] w-[200px]"
         onClick={handleSubmit}
+        className="bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200"
       >
         Create
       </button>

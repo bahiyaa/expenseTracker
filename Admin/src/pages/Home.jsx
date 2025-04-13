@@ -1,94 +1,141 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { FaWallet } from "react-icons/fa";
 import { IoCardOutline } from "react-icons/io5";
 import { PiHandCoins } from "react-icons/pi";
 import { PieChart } from '@mui/x-charts/PieChart';
+import { publicRequest } from '../requestMethods';
+
 
 function Home() {
+  const [incomes, setIncomes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const [recentUsers, setRecentUsers] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const incomeRes = await publicRequest.get("/adminincome");
+        setIncomes(incomeRes.data);
+
+        const expenseRes = await publicRequest.get("/adminexpense");
+        setExpenses(expenseRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const totalIncome = incomes.reduce((sum, income) => sum + income.Amount, 0);
+  const totalExpenses = expenses.reduce((sum, expense) => sum + expense.Amount, 0);
+  const totalBalance = totalIncome - totalExpenses;
+
+  useEffect(() => {
+    const fetchRecentUsers = async () => {
+      try {
+        const res = await publicRequest.get('/users'); // Assuming this is publicly accessible
+        const latestUsers = res.data
+          .slice(-5) // last 5 users
+          .reverse(); // show most recent first
+        setRecentUsers(latestUsers);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      }
+    };
+
+    fetchRecentUsers();
+  }, []);
+
   return (
-    <div>
-      <div className='flex items-center mt-[5%]'>
-        <div className='flex flex-column text-gray-500 h-[150px] w-[350px] shadow-lg m-[20px]'>
-          <div className='flex flex-col items-center justify-center mt-[10%]'>
-            <div className='flex items-center ml-[30px]'>
-              <div className='bg-pink-400 w-16 h-16 rounded-full flex items-center justify-center'>
-                <IoCardOutline className='text-xl' />
-              </div>
-              <h1 className='text-[20px] font-semibold items-center ml-[25px] mt-[-30px]'>Total Balance</h1>
+    <div className="bg-background min-h-screen p-6">
+      {/* Top Cards */}
+      <div className="flex flex-wrap gap-6 justify-start mt-6">
+        {/* Card Component */}
+        {[
+          {
+            title: "Total Balance",
+            value: totalBalance,
+            icon: <IoCardOutline className="text-xl text-white" />,
+          },
+          {
+            title: "Total Income",
+            value: totalIncome,
+            icon: <FaWallet className="text-lg text-white" />,
+          },
+          {
+            title: "Total Expense",
+            value: totalExpenses,
+            icon: <PiHandCoins className="text-xl text-white" />,
+          },
+        ].map((card, idx) => (
+          <div
+            key={idx}
+            className="bg-card-bg shadow-card w-[320px] h-[160px] rounded-2xl p-4 flex items-center gap-4"
+          >
+            <div className="bg-primary w-14 h-14 rounded-full flex items-center justify-center">
+              {card.icon}
             </div>
-            <div>
-              <h4 className='text-[20px] items-center ml-[60px] mt-[-30px]'>$22500</h4>
-            </div>
-          </div>
-        </div>
-
-        <div className='flex flex-column text-gray-500 h-[150px] w-[350px] shadow-lg m-[20px]'>
-          <div className='flex flex-col items-center justify-center mt-[10%]'>
-            <div className='flex items-center ml-[30px]'>
-              <div className='bg-pink-400 w-16 h-16 rounded-full flex items-center justify-center'>
-                <FaWallet className='text-lg' />
-              </div>
-              <h1 className='text-[20px] font-semibold items-center ml-[25px] mt-[-30px]'>Total Income</h1>
-            </div>
-            <div>
-              <h4 className='text-[20px] items-center ml-[70px] mt-[-30px]'>$25000</h4>
-            </div>
-          </div>
-        </div>
-
-        <div className='flex flex-column text-gray-500 h-[150px] w-[350px] shadow-lg m-[20px]'>
-          <div className='flex flex-col items-center justify-center mt-[10%]'>
-            <div className='flex items-center ml-[30px]'>
-              <div className='bg-pink-400 w-16 h-16 rounded-full flex items-center justify-center'>
-                <PiHandCoins className='text-xl' />
-              </div>
-              <h1 className='text-[20px] font-semibold items-center ml-[25px] mt-[-30px]'>Total Expense</h1>
-            </div>
-            <div>
-              <h4 className='text-[20px] items-center ml-[50px] mt-[-30px]'>$2500</h4>
+            <div className="flex flex-col justify-center">
+              <h3 className="text-text-muted font-medium text-sm">{card.title}</h3>
+              <p className="text-text-main font-heading text-xl">₹{card.value}</p>
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Charts and Users */}
+      <div className="flex flex-wrap justify-between mt-10 gap-6">
+      <div className="bg-card-bg shadow-card rounded-xl p-4 w-[500px] h-[450px]">
+  <h2 className="font-heading text-lg text-text-main mb-4">Overview</h2>
+  <PieChart
+    series={[
+      {
+        data: [
+          { id: 0, value: totalIncome, label: 'Total Income' },
+          { id: 1, value: totalExpenses, label: 'Total Expense' },
+          { id: 2, value: totalBalance, label: 'Total Balance' },
+        ],
+        innerRadius: 30,
+        outerRadius: 100,
+        paddingAngle: 5,
+        cornerRadius: 5,
+        startAngle: -45,
+        endAngle: 225,
+        cx: 150,
+        cy: 150,
+      },
+    ]}
+    sx={{
+      '--ChartsLegend-labelFontFamily': 'Inter',
+      '--ChartsLegend-labelColor': '#3E2C1C',
+      '--ChartsLegend-labelFontSize': '14px',
+    }}
+    slotProps={{
+      legend: {
+        labelStyle: {
+          fill: '#3E2C1C', // text-main
+          fontFamily: 'Inter',
+        },
+      },
+    }}
+    colors={['#A67B5B', '#D8BFAA', '#CBBBA0']} // your primary, accent, and secondary-accent
+  />
+</div>
+
+
+        <div className="bg-card-bg shadow-card rounded-xl p-6 w-[300px] h-[350px]">
+          <h2 className="font-heading text-lg text-text-main mb-2">Recent Users</h2>
+          <ol className="text-text-muted font-semibold list-decimal list-inside space-y-1 mt-2">
+        {recentUsers.map((user, index) => (
+          <li key={user._id}>{user.fullname}</li>
+        ))}
+      </ol>
         </div>
-
       </div>
-
-      <div className='flex items-center justify-between'>
-        <div className='h-[450px] w-[500px]'>
-        <PieChart
-          series={[
-            {
-              data: [
-                { id: 0, value: 10, label: ' Total Expense' },
-                { id: 1, value: 15, label: 'Total Income' },
-                { id: 2, value: 20, label: 'Total Balance' },
-              ],
-              innerRadius: 30,
-              outerRadius: 100,
-              paddingAngle: 5,
-              cornerRadius: 5,
-              startAngle: -45,
-              endAngle: 225,
-              cx: 150,
-              cy: 150,
-            }
-          ]}
-        />
-        </div>
-        <div className='h-[350px] w-[300[px] shadow-[lg] p-[20px]'>
-        <h2 className='flex px-[20px] text-gray-500'>Recent Users</h2>
-       <ol className='flex font-semibold flex-col justify-end px-[20px] mt-[10px] text-gray-400'>
-        <li>1.Daniel</li>
-        <li>2.Riya</li>
-        <li>3.Rose</li>
-       </ol>
-      </div>
-        
-      </div>
- 
-     
-
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

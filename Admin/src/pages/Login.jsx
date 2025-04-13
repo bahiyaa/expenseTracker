@@ -1,30 +1,93 @@
-import React from 'react'
-import Footer from '../components/Footer'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/v1/admin/login", {
+        email,
+        password,
+      });
+      console.log("Response:", res.data);
+  
+      // Set items in session storage
+      sessionStorage.setItem("adminToken", res.data.accessToken);
+      sessionStorage.setItem("adminEmail", res.data.email);  // Added the email storage
+  
+      // Debugging: Check if the items are stored correctly
+      console.log("SessionStorage:", sessionStorage.getItem("adminToken"));
+      console.log("SessionStorage:", sessionStorage.getItem("adminEmail"));
+  
+      // Delay navigation to ensure sessionStorage is updated first
+      setTimeout(() => {
+        console.log("Navigating to home page...");
+        navigate("/");  // Redirect to the home page
+      }, 500);  // 500ms delay (adjust if necessary)
+      
+      alert("Login successful!");
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Invalid email or password");
+    }
+  };
+
   return (
-   <div>
-    <div className='h-[80vh] flex items-center justify-evenly p-[50px] text-gray-400 '>
-      <div>
-        <h2 className='text-{#d9d9d9] font-semibold text-[35px]'>FinFlow</h2>
-        <img src="/Expense-image.webp" alt="" width='300px'/>
-      </div>
-      <div className='h-[450px] w-[450px] bg-[#e9eb77] rounded-md'>
-        <input type="text" placeholder='Enter your Email' 
-        className='flex items-center justify-center bg-[#fff] p-[20px] w-[350px] m-[10%] outline-none'
-        />
-        <input type="password" placeholder='Enter your Password' 
-        className='flex items-center justify-center bg-[#fff] p-[20px] w-[350px] m-[10%] outline-none'
-        />
-         <button className=' flex items-center justify-center bg-[#1e1e1e] cursor-pointer text-white p-[15px] w-[350px] rounded m-[10%] text-[18px]'>Login</button>
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 font-sans">
+      <div className="flex gap-16 items-center">
+        <div className="text-center">
+          <h2 className="text-4xl font-heading text-primary mb-6">FinFlow</h2>
+          <img
+            src="src/assets/banners.jpg"
+            alt="FinFlow"
+            width="300"
+            className="rounded-xl shadow-card"
+          />
+        </div>
 
-      </div>
+        <div className="w-[400px] bg-card-bg rounded-2xl shadow-card p-8">
+          <h3 className="text-2xl font-semibold text-text-main mb-6 text-center">
+            Admin Login
+          </h3>
 
+          <input
+            type="text"
+            autoComplete="new-email" 
+            placeholder="Enter your Email"
+            className="w-full p-4 mb-4 border border-secondary-accent rounded-xl outline-none text-text-main placeholder-text-muted"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            autoComplete="new-password"
+            placeholder="Enter your Password"
+            className="w-full p-4 mb-4 border border-secondary-accent rounded-xl outline-none text-text-main placeholder-text-muted"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {error && (
+            <p className="text-error text-center text-sm mb-4">{error}</p>
+          )}
+
+          <button
+            onClick={handleLogin}
+            className="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary-accent transition"
+          >
+            Login
+          </button>
+        </div>
+      </div>
     </div>
-
-    <Footer></Footer>
-   </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

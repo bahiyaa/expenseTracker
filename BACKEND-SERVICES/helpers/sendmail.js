@@ -1,34 +1,35 @@
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config({ path: __dirname + "/../.env" });
 
-function createTransporter(config) {
-    const transporter = nodemailer.createTransport(config);
-    return transporter;
-}
+const sendMail = async (to, subject, html) => {
+    console.log("✅ Loaded Email:", process.env.EMAIL);
+    console.log("✅ Loaded Pass:", process.env.PASS);
 
-let configurations = {
-    service: "gmail",
-    host: "smtp.gmail.com",
-    port: 587,
-    requireTLS: true,
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASS
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASS,
+        },
+    });
+
+    console.log("ENV EMAIL:", process.env.EMAIL);
+    console.log("ENV PASS:", process.env.PASS);
+
+    const mailOptions = {
+        from: `"FinFlow" <${process.env.EMAIL}>`,
+        to,
+        subject,
+        html,
+    };
+
+    try {
+        console.log("Sending email to:", to);
+        await transporter.sendMail(mailOptions);
+        console.log("✅ Email sent!");
+    } catch (error) {
+        console.error("❌ Error sending email:", error);
     }
-}
-
-const sendMail = async (meassageOption) => {
-    const transporter = await createTransporter(configurations);
-    await transporter.verify();
-    await transporter.sendMail(meassageOption, (error, info) => {
-        if (error) {
-            console.log(error);
-
-        }
-
-        console.log(info.response);
-    })
 };
 
 module.exports = sendMail;

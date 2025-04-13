@@ -1,17 +1,32 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("adminToken");
+    navigate("/login");
+  };
+
   return (
-    <div className="h-[100px] bg-pink-600 text-gray-700 flex items-center justify-between px-10">
-      <Link>
-      <img src="logo.webp" alt="" height="90px" width="90px"/>
+    <div className="h-[100px] bg-primary text-text-main flex items-center justify-between px-10 shadow-md">
+      <Link to="/" className="flex items-center">
+        <img
+          src="src/assets/logo.jpg"
+          alt="Logo"
+          className="h-[80px] w-[80px] object-cover rounded-xl shadow-sm"
+        />
       </Link>
-      
-      
-      <button className='text-[18px] font-semibold cursor-pointer'>Logout</button>
+
+      <button
+        onClick={handleLogout}
+        className="bg-secondary-accent text-text-main px-4 py-2 rounded-xl font-medium hover:bg-secondary transition-colors"
+      >
+        Logout
+      </button>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

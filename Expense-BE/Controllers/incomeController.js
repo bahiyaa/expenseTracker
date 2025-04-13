@@ -1,65 +1,79 @@
-const Income = require('../models/Income');
+const Income = require("../models/Income");
 
-// Create an income
 const createIncome = async (req, res) => {
-    try {
-        const newIncome = Income(req.body);
-        const income = await newIncome.save();
-        res.status(201).json(income);
+  try {
+    const newIncome = new Income({
+      category: req.body.category,
+      transactionDate: req.body.transactionDate,
+      Amount: req.body.Amount,
+      userId: req.body.userId,
+    });
 
-    } catch (error) {
-        res.status(500).json(error)
+    const savedIncome = await newIncome.save();
+    res.status(201).json(savedIncome);
+  } catch (error) {
+    console.error("❌ Error creating income:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
-    }
-}
 
-// Get all Income
-
+// GET ALL INCOME
 const getAllIncome = async (req, res) => {
-    try {
-        const incomes = await Income.find().sort({ createdAt: -1 });
-        res.status(200).json(incomes);
+  try {
+    const incomeList = await Income.find();
+    res.status(200).json(incomeList);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch income", error: err });
+  }
+};
 
+// GET INCOME BY ID
+const getIncomeById = async (req, res) => {
+  try {
+    const income = await Income.findById(req.params.id);
+    if (!income) return res.status(404).json({ message: "Income not found" });
+    res.status(200).json(income);
+  } catch (err) {
+    res.status(500).json({ message: "Error retrieving income", error: err });
+  }
+};
 
-    } catch (error) {
-        res.status(500).json(error)
-
-    }
-
-}
-// update the Income
+// UPDATE INCOME
 const updateIncome = async (req, res) => {
-    try {
-        const income = await Income.findById(req.params.id);
-        res.status(201).json(income)
+  try {
+    const updatedIncome = await Income.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(updatedIncome);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update income", error: err });
+  }
+};
 
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
-// Get one Income
-const getOneIncome = async (req, res) => {
-    try {
-        const income = await Income.findById(req.params.id);
-        res.status(200).json(income)
-
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
-// Delete Income
+// DELETE INCOME
 const deleteIncome = async (req, res) => {
-    try {
-        await Income.findByIdAndDelete(req.params.id);
-
-        res.status(201).json({ message: "Income has been deleted!" });
-    } catch (error) {
-        res.status(500).json(error);
+  try {
+    // Find the income by ID (no need to check for userId since admin can delete any record)
+    const income = await Income.findById(req.params.id);
+    if (!income) {
+      return res.status(404).json({ message: "Income not found" });
     }
-}
 
-module.exports = { deleteIncome, getOneIncome, updateIncome, getAllIncome,createIncome}
+    // Delete the income record
+    await Income.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Income deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting income", error: err });
+  }
+};
 
-
+module.exports = {
+  createIncome,
+  getAllIncome,
+  getIncomeById,
+  updateIncome,
+  deleteIncome,
+};

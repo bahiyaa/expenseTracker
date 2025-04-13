@@ -1,106 +1,114 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { publicRequest } from '../requestMethods';
-import axios from 'axios';
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateIncome = () => {
-  const [incomes, setIncome] = useState({});
-  const location = useLocation();
-  const incomeId = location.pathname.split("/")[2];
   const [inputs, setInputs] = useState({
-    category: "",  // Initialize to avoid "undefined" errors
+    category: '',
+    Amount: '',
+    transactionDate: '',
+    userId: '',
   });
+
+  const location = useLocation();
+  const incomeId = location.pathname.split('/')[2];
 
   useEffect(() => {
     const getIncome = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/v1/income"); // Adjust API if needed
-        console.log("Fetched Data:", res.data);
+        const res = await publicRequest.get(`/adminincome/${incomeId}`);
+        const data = res.data;
 
-        // Ensure correct format (if API returns an array, take first item)
-        const incomeData = Array.isArray(res.data) ? res.data[0] : res.data;
-        const formattedDate = incomeData.transactionDate
-        ? new Date(incomeData.transactionDate).toISOString().split("T")[0]
-        : "";
-        console.log(incomeData.transactionDate);
-        
-
-        setIncome(incomeData);
-        setInputs((prev) => ({
-          ...prev,
-          category: incomeData?.category || "",
-          transactionDate: formattedDate 
-        }));
+        setInputs({
+          category: data.category || '',
+          Amount: data.Amount || '',
+          transactionDate: data.transactionDate?.split('T')[0] || '',
+          userId: data.userId || '',
+        });
       } catch (error) {
-        console.error("Error fetching income:", error);
+        console.error('❌ Error fetching income:', error);
+        toast.error('Failed to load income data');
       }
     };
 
     getIncome();
-  }, []);
-  
-  const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  }, [incomeId]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleUpdate = async () => {
     try {
-      await publicRequest.put(`/income/${incomeId}`, inputs)
+      const updatedData = {
+        category: inputs.category,
+        Amount: Number(inputs.Amount),
+        transactionDate: inputs.transactionDate,
+        userId: inputs.userId,
+      };
 
+      await publicRequest.put(`/adminincome/${incomeId}`, updatedData);
+      toast.success('✅ Income successfully updated!');
     } catch (error) {
-      console.log(error);
-
-
+      console.error('❌ Error updating income:', error);
+      toast.error('Failed to update income');
     }
-  }
+  };
+
   return (
-    <div className='m-[20px] bg-[#fff] p-[20px] items-center'>
-      <h2 className='font-semibold ml-[40px] mt-[25px]'>Update Income</h2>
-      <div className='flex'>
-        <div className='m-[18px]'>
-          <div className="flex flex-col my-[20px]">
-            <label htmlFor="category" className="mb-1 font-medium">Income Source</label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              placeholder="Enter income source"
-              value={inputs.category}  // Controlled input
-              onChange={handleChange}
-              className="border-2 border-[#555] p-[10px] w-[200px] text-gray-600 rounded-md"
-            />
-          </div>
+    <div className="max-w-3xl mx-auto mt-10 bg-card-bg p-8 rounded-2xl shadow-card">
+      <h2 className="text-2xl font-heading text-text-main mb-6">Update Income</h2>
 
-          <div className='flex flex-col my-[20px]'>
-            <label htmlFor="">Amount</label>
-            <input type="text" placeholder={incomes.Amount}
-              name="amount" onChange={handleChange}
-              className='border-2 border-[#555] border-solid p-[10px] w-[130px]' />
-          </div>
-
-          <div className='flex flex-col my-[20px]'>
-            <label htmlFor="">Date</label>
-            <input
-  type="date"
-  id="transactionDate"
-  name="transactionDate"
-  value={inputs.transactionDate || ""}  // ✅ Use `inputs.transactionDate`
-  onChange={handleChange}
-  className="border-2 border-[#555] p-[10px] w-[200px] text-gray-600 rounded-md"
-/>
-          </div>
-
-          <button className='bg-[#1e1e1e] cursor-pointer text-white p-[10px] w-[120px] rounded' onClick={handleUpdate}>Update</button>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col">
+          <label className="mb-1 text-text-muted font-medium">Income Source</label>
+          <input
+            type="text"
+            name="category"
+            value={inputs.category}
+            onChange={handleChange}
+            className="p-3 rounded-xl border border-secondary-accent bg-background text-text-main placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
+            autoComplete="off"
+          />
         </div>
 
+        <div className="flex flex-col">
+          <label className="mb-1 text-text-muted font-medium">Amount</label>
+          <input
+            type="number"
+            name="Amount"
+            value={inputs.Amount}
+            onChange={handleChange}
+            className="p-3 rounded-xl border border-secondary-accent bg-background text-text-main placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
+            autoComplete="off"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1 text-text-muted font-medium">Date</label>
+          <input
+            type="date"
+            name="transactionDate"
+            value={inputs.transactionDate}
+            onChange={handleChange}
+            className="p-3 rounded-xl border border-secondary-accent bg-background text-text-main placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
       </div>
 
-    </div>
-  )
-}
+      <button
+        onClick={handleUpdate}
+        className="mt-8 bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200"
+      >
+        Update
+      </button>
 
-export default UpdateIncome
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default UpdateIncome;

@@ -1,77 +1,156 @@
-import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { FaWindowClose } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userRequest } from "../requestMethod"; // ✅ Authenticated request method
 
 function Income() {
   const [showReport, setShowReport] = useState(false);
+  const [data, setData] = useState([]);
+  
+  // ✅ Toggle report visibility
+  const handleShowReport = () => setShowReport((prev) => !prev);
 
-  const handleShowReport = () => {
-    setShowReport(!showReport);
-  };
+  // ✅ Retrieve user from Redux or localStorage
+  const currentUser =
+    useSelector((state) => state.user?.currentUser) ||
+    JSON.parse(localStorage.getItem("user")); // Fallback if Redux is cleared
 
+  const token = currentUser?.accessToken; // ✅ Extract token safely
+  console.log("🔍 Checking Local Storage User:", localStorage.getItem("user"));
+
+  console.log("🔍 Persisted User in Redux/LocalStorage:", currentUser);
+  console.log("🔑 Extracted Token:", token);
+
+  useEffect(() => {
+    const getIncome = async () => {
+      if (!token) {
+        console.error("❌ No token found! API request canceled.");
+        return;
+      }
+
+      console.log("🚀 Sending request with token:", token);
+
+      try {
+        const res = await userRequest.get("/userincome", {
+          headers: { Authorization: `Bearer ${token}` }, // ✅ Attach token correctly
+          withCredentials: true, // ✅ Ensures credentials are sent (important for CORS)
+        });
+
+        console.log("✅ API Response:", res.data);
+        setData(res.data || []); // ✅ Store response in state, prevent null issues
+      } catch (err) {
+        console.error("❌ API Error:", err.response?.data || err.message);
+      }
+    };
+
+    getIncome();
+  }, [token]); // ✅ Runs when token changes
+
+  // ✅ Define columns for DataGrid
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'category', headerName: 'Category', width: 140 },
-    { field: 'date', headerName: 'Transactiion Date', width: 130 },
-    { field: 'amount', headerName: 'Amount', width: 130 }
-
-
+    { field: "_id", headerName: "ID", width: 90 },
+    { field: "category", headerName: "Category", width: 140 },
+    { field: "transactionDate", headerName: "Transaction Date", width: 130 },
+    { field: "Amount", headerName: "Amount", width: 130 },
   ];
-
-  const rows = [
-    { id: 1, category: 'Trade', date: '4/27/2025', amount: 1200 },
-    { id: 2, category: 'Trade', date: '4/14/2025', amount: 1200 },
-    { id: 3, category: 'Trade', date: '3/19/2025', amount: 1200 },
-    { id: 4, category: 'Trade', date: '4/20/2025', amount: 1200 },
-    { id: 5, category: 'Trade', date: '4/26/2025', amount: 1200 },
+  const pieColors = [
+    "#7B3F00", // Chocolate
+    "#A0522D", // Sienna
+    "#8B4513", // Saddle Brown
+    "#CD853F", // Peru
+    "#D2B48C", // Tan
+    "#DEB887", // BurlyWood
+    "#F5DEB3", // Wheat
+    "#E6D3B3", // Light Beige
   ];
+  // Group data by category and sum the amounts
+const incomeByCategory = data.reduce((acc, item) => {
+  const category = item.category || "Uncategorized";
+  const amount = Number(item.Amount) || 0;
+
+  if (acc[category]) {
+    acc[category] += amount;
+  } else {
+    acc[category] = amount;
+  }
+
+  return acc;
+}, {});
+
+// Convert to PieChart data format
+const pieChartData = Object.entries(incomeByCategory).map(([category, amount], index) => ({
+  id: index,
+  value: amount,
+  label: category,
+  color: pieColors[index % pieColors.length], // Repeat colors if more categories
+}));
   return (
-    <div className='m-[30px] p-[20px] bg-[#d9d9d9]'>
-      <div className='flex items-center justify-between'>
-        <h1 className='m-[20px] text-[20px]'>Income Details</h1>
-
-        <div className='relative'>
-          <Link to='/addexpense'>
-            <button className='bg-[#1e1e1e] text-white p-[10px] cursor-pointer rounded mr-[15px]'>Add Income</button>
-          </Link>
-          <button className='bg-[#1e1e1e] text-white p-[10px] cursor-pointer rounded ' onClick={handleShowReport}>Income Chart</button>
-        </div>
-        {showReport && (
-          <div className="absolute z-[999] flex flex-col p-[10px] top-[20px] right-[0px] h-[400px] w-[400px] bg-white shadow-xl">
+    <div className="m-8 p-6 bg-secondary-accent rounded-2xl shadow-card font-sans">
+    <div className="flex items-center justify-between mb-4">
+      <h1 className="text-2xl font-heading text-text-main">Income Details</h1>
+  
+      <div className="relative flex gap-4">
+        <Link to="/addincome">
+          <button className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
+            Add Income
+          </button>
+        </Link>
+        <button
+          className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200"
+          onClick={handleShowReport}
+        >
+          Income Chart
+        </button>
+        <Link to="/mypage">
+    <button className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
+      profile
+    </button>
+  </Link>
+      </div>
+  
+      {/* Income Pie Chart Modal */}
+      {showReport && (
+        <div className="absolute z-[999] top-[80px] right-0 h-[400px] w-[400px] bg-card-bg shadow-2xl rounded-2xl p-4">
+          <div className="flex justify-end">
             <FaWindowClose
-              className="flex justify-end items-end text-2xl text-red-500 cursor-pointer"
+              className="text-2xl text-error cursor-pointer"
               onClick={handleShowReport}
             />
-            <PieChart
-              series={[
-                {
-                  data: [{ id: 0, value: 10, label: 'series A' },
-                  { id: 1, value: 15, label: 'series B' },
-                  { id: 2, value: 20, label: 'series C' },],
-                  innerRadius: 30,
-                  outerRadius: 100,
-                  paddingAngle: 5,
-                  cornerRadius: 5,
-                  startAngle: -90,
-                  endAngle: 180,
-                  cx: 150,
-                  cy: 150,
-                },
-              ]}
-            />
-
           </div>
-
-        )}
-
-      </div>
-      <DataGrid rows={rows} columns={columns} checkboxSelection />
-
-
+          <PieChart
+  series={[
+    {
+      data: pieChartData,
+      innerRadius: 30,
+      outerRadius: 100,
+      paddingAngle: 5,
+      cornerRadius: 5,
+      startAngle: -90,
+      endAngle: 180,
+      cx: 150,
+      cy: 150,
+    },
+  ]}
+  colors={pieChartData.map((entry) => entry.color)} // Assign colors to chart
+/>
+        </div>
+      )}
     </div>
-  )
+  
+    {/* Income Data Table */}
+    <DataGrid
+      rows={data}
+      getRowId={(row) => row._id || row.id}
+      columns={columns}
+      checkboxSelection
+      className="bg-card-bg rounded-xl shadow-card text-text-main"
+    />
+  </div>
+  
+  );
 }
 
-export default Income
+export default Income;

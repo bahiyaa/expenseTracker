@@ -1,58 +1,59 @@
-import React from 'react'
-import { FaHome } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
-import { FaCalculator } from "react-icons/fa";
-import { FaHdd } from "react-icons/fa";
-import { FaUsers } from "react-icons/fa";
+import React from 'react';
+import { FaHome, FaUser, FaCalculator, FaHdd, FaUsers } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function Menu() {
   return (
-    <div className='h-[90vh] shadow-xl ml-[10px]'>
-     
-     <ul className='flex flex-col item-center justify-center  mt-[110px] ml-[70px]'>
-     <Link to="/">
-     <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]'>
-      <FaHome className='mr-[15px]' />Home
-      </li>
-     </Link>
-     <Link>
-     <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]'>
-      <FaUser  className='mr-[15px]'/>Profile
-      </li>
-     </Link>
-      
-      
-      <hr className='h-[20px]'/>
-      <Link to='/income'>
-      <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]' Link to='/income'>
-      <FaCalculator className='mr-[15px]'/>Income
-      </li>
-      </Link>
-      <Link to='/expenses'>
-      <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]' Link to='/expenses'>
-      <FaUsers className='mr-[15px]'/>Expense
-      </li>
-      </Link>
-      <Link to='/users'>
-      <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]' Link to='/expenses'>
-      <FaUsers className='mr-[15px]'/>Users
-      </li>
-      </Link>
-      
-      
-      <hr className='h-[20px]'/>
-      <Link to='/login'>
-      <li className='flex items-center text-gray-600 text-[20px] hover:text-indigo-300 cursor-pointer mt-[20px]'>
-      <FaHdd className='mr-[15px]'/>Logout
-      </li>
-      </Link>
-      
-      
-      
-     </ul>
+    <div className="min-h-[calc(100vh-100px)] bg-secondary px-6 py-10 shadow-xl rounded-tr-2xl rounded-br-2xl">
+      <ul className="flex flex-col gap-6 mt-8">
+        <Link to="/">
+          <li className="flex items-center text-text-muted hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaHome className="mr-3" />
+            Home
+          </li>
+        </Link>
+
+        {/* <Link to="/profile">
+          <li className="flex items-center text-text-muted hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaUser className="mr-3" />
+            Profile
+          </li>
+        </Link> */}
+
+        <hr />
+
+        <Link to="/income">
+          <li className="flex items-center text-text-muted hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaCalculator className="mr-3" />
+            Income
+          </li>
+        </Link>
+
+        <Link to="/expenses">
+          <li className="flex items-center text-text-muted hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaUsers className="mr-3" />
+            Expense
+          </li>
+        </Link>
+
+        <Link to="/users">
+          <li className="flex items-center text-text-muted hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaUsers className="mr-3" />
+            Users
+          </li>
+        </Link>
+
+        <hr />
+
+        <Link to="/login">
+          <li className="flex items-center text-error hover:text-primary hover:bg-secondary-accent px-4 py-2 rounded-xl cursor-pointer text-[18px]">
+            <FaHdd className="mr-3" />
+            Logout
+          </li>
+        </Link>
+      </ul>
     </div>
-  )
+  );
 }
 
-export default Menu
+export default Menu;

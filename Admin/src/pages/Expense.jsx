@@ -1,68 +1,105 @@
-import React,{ useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { FaEdit } from "react-icons/fa";
-import { publicRequest } from '../requestMethods';
+import { adminRequest } from '../requestMethods';
 
-
-const Expense=()=> {
+const Expense = () => {
   const [data, setData] = useState([]);
+
   const columns = [
-      {field:'_id',headerName:'ID',width:90},
-      {field:'category',headerName:'Category',width:140},
-      {field:'date',headerName:'Transactiion Date',width:130},
-      {field:'amount',headerName:'Amount',width:130},
-      {field:'edit',headerName:'Edit',width:150,
-        renderCell:()=>{
-          return(
-            <>
-            <button className='text-black-400 w-[700px] cursor-pointer m-2'>
-               <FaEdit className='text-xl m-[15px] ml-[10px]'/>Edit</button>
-            </>
-          )
-        }
-      },
-      {field:'delete',headerName:'Delete',width:150,
-        renderCell:()=>{
-          return(
-            <>
-            <button className='text-red-600 cursor-pointer m-2'><FaTrash></FaTrash></button>
-            </>
-          )
-        }
+    { field: '_id', headerName: 'ID', width: 90 },
+    { field: 'category', headerName: 'Category', width: 140 },
+    { field: 'transactionDate', headerName: 'Date', width: 130 },
+    { field: 'Amount', headerName: 'Amount (₹)', width: 130 },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width: 120,
+      renderCell: (params) => (
+        <Link to={`/adminexpense/${params.row._id}`}>
+          <button className="flex items-center gap-2 text-primary hover:text-primary-accent transition">
+            <FaEdit />
+            Edit
+          </button>
+        </Link>
+      ),
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width: 130,
+      renderCell: (params) => (
+        <button
+          onClick={() => handleDelete(params.row._id)}
+          className="flex items-center gap-2 text-error hover:text-red-800 transition"
+        >
+          <FaTrash />
+          Delete
+        </button>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    const getExpense = async () => {
+      try {
+        const res = await adminRequest.get('/adminexpense');
+        setData(res.data);
+      } catch (error) {
+        console.error('❌ Error fetching expenses:', error);
       }
-  
-  
-    ];
-    
-    const rows = [
-      { id:1,category:'Shopping',date:'4/27/2025',amount:1200 },
-      { id:2,category:'Credit Card',date:'4/14/2025',amount:1200 },
-      { id:3,category:'Insurance',date:'3/19/2025',amount:1200 },
-      { id:4,category:'Charity',date:'4/20/2025',amount:1200 },
-      { id:5,category:'Fees',date:'4/26/2025',amount:1200 },
-    ];
+    };
+    getExpense();
+  }, []);
 
-    
+  const handleDelete = async (id) => {
+    try {
+      await adminRequest.delete(`/adminexpense/${id}`);
+      setData((prev) => prev.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error('❌ Error deleting expense:', error);
+    }
+  };
+
   return (
-  
-      <div className='m-[30px] p-[20px] bg-[#d9d9d9]'>
-            <div className='flex items-center justify-between'>
-              <h1 className='m-[20px] text-[20px]'>Expense Details</h1>
-              <Link to='/addexpense'>
-              <button className='bg-[#1e1e1e] text-white p-[10px] cursor-pointer rounded'>Add Expense</button>
-              </Link>
-              
-            </div>
-            <DataGrid rows={rows} columns={columns}
-            checkboxSelection
-            />
-            
-      
-          </div>
- 
-  )
-}
+    <div className="m-8 p-6 bg-background rounded-2xl shadow-card">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-heading text-text-main">Expense Details</h1>
+        <Link to="/addexpense">
+          <button className="bg-primary hover:bg-primary-accent text-white font-semibold px-4 py-2 rounded-xl shadow-md transition">
+            + Add Expense
+          </button>
+        </Link>
+      </div>
+      <div className="bg-card-bg rounded-xl shadow-card p-4">
+        <DataGrid
+          rows={data}
+          getRowId={(row) => row._id}
+          columns={columns}
+          checkboxSelection
+          disableRowSelectionOnClick
+          sx={{
+            fontFamily: 'Inter',
+            backgroundColor: '#FFFFFF',
+            borderRadius: '1rem',
+            boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#EFE6DD',
+              color: '#3E2C1C',
+              fontWeight: 'bold',
+            },
+            '& .MuiDataGrid-cell': {
+              color: '#3E2C1C',
+            },
+            '& .MuiCheckbox-root': {
+              color: '#A67B5B',
+            },
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
-export default Expense
+export default Expense;

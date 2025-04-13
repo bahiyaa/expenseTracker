@@ -1,14 +1,11 @@
+// models/Income.js
 const mongoose = require("mongoose");
 
-const IncomeSchema = mongoose.Schema({
+const IncomeSchema = new mongoose.Schema({
+    category: { type: String },
+    Amount: { type: Number, required: true }, // capital A
+    transactionDate: { type: String },
+    userId: { type: String, required: true },
+  });
 
-    category: { type: String, require: true },
-    Amount: { type: Number, require: true },
-    transactionDate: { type: String, require: true },
-    status: { type: Number, default: 0 },
-},{
-    timestamp:true
-
-});
-
-module.exports = mongoose.model("income", IncomeSchema)
+module.exports = mongoose.model("Income", IncomeSchema);

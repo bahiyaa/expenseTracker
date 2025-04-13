@@ -1,42 +1,39 @@
-import { DataGrid } from "@mui/x-data-grid";
-import { FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { publicRequest } from "../requestMethods";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import { FaTrash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { adminRequest } from '../requestMethods';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
 
   const columns = [
-    { field: "fullname", headerName: "Name", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "role", headerName: "Role", width: 150 },
-
+    { field: 'fullname', headerName: 'Name', width: 180 },
+    { field: 'email', headerName: 'Email', width: 240 },
+    { field: 'role', headerName: 'Role', width: 140 },
     {
-      field: "delete",
-      headerName: "Delete",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <FaTrash
-              className="text-red-500 cursor-pointer m-[10px]"
-              onClick={() => handleDelete(params.row._id)}
-            />
-          </>
-        );
-      },
+      field: 'delete',
+      headerName: 'Delete',
+      width: 130,
+      renderCell: (params) => (
+        <button
+          onClick={() => handleDelete(params.row._id)}
+          className="flex items-center gap-2 text-error hover:text-red-800 transition"
+        >
+          <FaTrash />
+          Delete
+        </button>
+      ),
     },
   ];
 
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const res = await publicRequest.get("/users");
+        const res = await adminRequest.get('/users');
         setUsers(res.data);
       } catch (error) {
-        console.log(error);
+        console.log('Error fetching users:', error);
       }
     };
     getUsers();
@@ -44,32 +41,49 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      await publicRequest.delete(`/users/${id}`);
-      window.location.reload();
+      await adminRequest.delete(`/users/${id}`);
+      setUsers(users.filter((user) => user._id !== id));
     } catch (error) {
-      console.log(error);
+      console.log('Error deleting user:', error);
     }
   };
 
   return (
-    <div className="m-[30px] bg-[#fff] p-[20px]">
-      <div className="flex items-center justify-between">
-        <h1 className="m-[20px] text-[20px]">All Users</h1>
-
+    <div className="m-8 p-6 bg-background rounded-2xl shadow-card">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-heading text-text-main">User List</h1>
         <Link to="/newuser">
-          <button className="bg-[#1E1E1E] text-white p-[10px] cursor-pointer">
-            New User
+          <button className="bg-primary hover:bg-primary-accent text-white font-semibold px-4 py-2 rounded-xl shadow-md transition">
+            + New User
           </button>
         </Link>
       </div>
-      <DataGrid
-        rows={users}
-        columns={columns}
-        getRowId={(row) => row._id}
-        disableSelectionOnClick
-        pageSize={10}
-        checkboxSelection
-      />
+      <div className="bg-card-bg rounded-xl shadow-card p-4">
+        <DataGrid
+          rows={users}
+          getRowId={(row) => row._id}
+          columns={columns}
+          checkboxSelection
+          disableRowSelectionOnClick
+          sx={{
+            fontFamily: 'Inter',
+            backgroundColor: '#FFFFFF !important',
+            borderRadius: '1rem',
+            boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#EFE6DD !important',
+              color: '#3E2C1C !important',
+              fontWeight: 'bold',
+            },
+            '& .MuiDataGrid-cell': {
+              color: '#3E2C1C !important',
+            },
+            '& .MuiCheckbox-root': {
+              color: '#A67B5B !important',
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };
