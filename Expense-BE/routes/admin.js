@@ -6,43 +6,49 @@ const Admin = require("../models/Admin");
 const CryptoJs = require("crypto-js"); // For password decryption
 dotenv.config();
 
-// POST /v1/admin/login
 router.post("/login", async (req, res) => {
   try {
-    console.log("Login request received");  // Debugging log
+    console.log("🔐 Login request received");
     const { email, password } = req.body;
+    console.log("📨 Payload:", email);
 
-    // 1. Find admin in DB
     const admin = await Admin.findOne({ email });
     if (!admin) {
+      console.log("❌ Admin not found");
       return res.status(401).json({ message: "Admin not found" });
     }
 
-    // 2. Decrypt password and compare
+    console.log("✅ Admin found");
+
     const decrypted = CryptoJs.AES.decrypt(admin.password, process.env.PASS);
     const originalPassword = decrypted.toString(CryptoJs.enc.Utf8);
+    console.log("🔓 Decrypted password:", originalPassword);
 
     if (originalPassword !== password) {
+      console.log("❌ Invalid password");
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    // 3. Create token
+    console.log("✅ Password matched");
+
     const token = jwt.sign({ email: admin.email, role: "admin" }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    // 4. Send token, email, and role in response
+
+    console.log("✅ Token created");
+
     res.status(200).json({
       email: admin.email,
-      role: "admin",  // The role is "admin" since you're logging in as an admin
+      role: "admin",
       accessToken: token,
     });
 
-    // res.status(200).json({ token });
   } catch (err) {
-    console.error("Admin login error:", err);
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("❌ Admin login error:", err);
+    res.status(500).json({ message: "Something went wrong", error: err.message });
   }
 });
+
 // // POST /v1/admin/register
 // router.post("/register", async (req, res) => {
 //   try {

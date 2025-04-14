@@ -11,7 +11,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("https://expense-tracker-be-4ods.onrender.com/v1/admin/login", {
+      const res = await axios.post("https://expensetrackerbackend-l6jr.onrender.com/v1/admin/login", {
         email,
         password,
       });
