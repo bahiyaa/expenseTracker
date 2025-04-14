@@ -9,6 +9,7 @@ dotenv.config();
 // POST /v1/admin/login
 router.post("/login", async (req, res) => {
   try {
+    console.log("Login request received");  // Debugging log
     const { email, password } = req.body;
 
     // 1. Find admin in DB
