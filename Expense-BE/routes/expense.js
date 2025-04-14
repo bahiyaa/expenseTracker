@@ -26,7 +26,7 @@
 const router = require("express").Router();
 const {
     deleteExpense, getOneExpense, updateExpense, getAllExpense, createExpense
-} = require("../controllers/expenseController");
+} = require("../Controllers/expenseController");
 
 router.post("/", createExpense);
 router.get("/", getAllExpense);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // ✅ Base Axios Instance
-const BASE_URL = "http://localhost:5000/v1";
+const BASE_URL = "https://expense-tracker-be-4ods.onrender.com/";
 
 // ✅ Get token from localStorage
 const adminToken = sessionStorage.getItem("adminToken");

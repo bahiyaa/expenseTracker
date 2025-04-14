@@ -1,7 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose= require("mongoose");
-require("dotenv").config();
+
 
 
 const authRoute=require("./routes/auth")
@@ -33,6 +34,9 @@ app.use((req, res, next) => {
 
 
 // ROUTES
+app.get("/", (req, res) => {
+    res.send("Welcome to the Expense Tracker API");
+  });
 app.use("/v1/auth",authRoute)
 app.use("/v1/users",userRoute)
 app.use("/v1/userexpense",expenseRoute)
