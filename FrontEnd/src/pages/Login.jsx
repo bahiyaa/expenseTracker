@@ -4,6 +4,8 @@ import Footer from '../components/Footer'
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
 import { useNavigate } from "react-router-dom";
+import banner from '../assets/banner.jpg';
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -44,7 +46,7 @@ function Login() {
 
       <div className="flex flex-col lg:flex-row items-center justify-evenly py-16 px-6 lg:px-20">
         <img
-          src="src/assets/banner.jpg"
+          src={banner}
           alt="Login Banner"
           className="w-[300px] lg:w-[350px] rounded-2xl shadow-card"
         />
