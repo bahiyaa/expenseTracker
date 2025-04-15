@@ -23,13 +23,14 @@
 // export default Footer
 
 import React from 'react'
+import logo from '../assets/logo.jpg';
 
 function Footer() {
   return (
     <div className="h-[300px] bg-primary text-secondary flex items-center justify-between px-10 py-8 font-sans">
       <div className="flex flex-col gap-3 max-w-[50%]">
         <img
-          src="/src/assets/logo.jpg"
+          src={logo}
           alt="FinFlow Logo"
           className="h-[120px] w-[120px] object-contain rounded-full"
         />
