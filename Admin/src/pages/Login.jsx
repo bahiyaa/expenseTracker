@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import banner from '../assets/banner.jpg';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -44,7 +45,7 @@ function Login() {
         <div className="text-center">
           <h2 className="text-4xl font-heading text-primary mb-6">FinFlow</h2>
           <img
-            src="src/assets/banners.jpg"
+            src={banner}
             alt="FinFlow"
             width="300"
             className="rounded-xl shadow-card"

@@ -73,9 +73,13 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json("User not registered");
 
+    // 2. Debug: log the entered password and the stored hash
+    console.log("Entered password:", `"${password}"`);
+    console.log("Stored hash:", user.password);
+
     // Compare the plain password with the hashed password from DB
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect) return res.status(401).json("Wrong credentials");
+    if (!isPasswordCorrect) return res.status(401).json("Invalid password");
 
     // Generate JWT token
     const accessToken = jwt.sign(

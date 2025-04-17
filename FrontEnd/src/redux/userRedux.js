@@ -1,10 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+let savedUser = null;
+try {
+  savedUser = JSON.parse(localStorage.getItem("user"));
+} catch (e) {
+  console.warn("Invalid JSON in localStorage for 'user'");
+}
 const initialState = {
-  currentUser: JSON.parse(localStorage.getItem("user")) || null, // ✅ Load user from localStorage
+  currentUser: savedUser,
   isFetching: false,
   error: false,
 };
+
+// const initialState = {
+//   currentUser: JSON.parse(localStorage.getItem("user")) || null, // ✅ Load user from localStorage
+//   isFetching: false,
+//   error: false,
+// };
 
 const userSlice = createSlice({
   name: "user",

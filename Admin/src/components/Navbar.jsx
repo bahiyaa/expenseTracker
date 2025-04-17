@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.jpg';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Navbar() {
     <div className="h-[100px] bg-primary text-text-main flex items-center justify-between px-10 shadow-md">
       <Link to="/" className="flex items-center">
         <img
-          src="src/assets/logo.jpg"
+          src={logo}
           alt="Logo"
           className="h-[80px] w-[80px] object-cover rounded-xl shadow-sm"
         />
