@@ -66,8 +66,11 @@ const registerUser = async (req, res) => {
 
 // ✅ Login User (Fixed)
 const loginUser = async (req, res) => {
+  console.log("Login request received");
   try {
     const { email, password } = req.body;
+    console.log("Received email:", email);
+      console.log("Received password:", password);
 
     // Find the user by email
     const user = await User.findOne({ email });
