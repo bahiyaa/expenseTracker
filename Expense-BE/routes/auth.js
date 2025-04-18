@@ -13,8 +13,11 @@ router.get("/test", (req, res) => {
     res.send("Auth routes are connected!");
   });
 
-router.post("/login",loginUser)
-
+  router.post("/login", (req, res, next) => {
+    console.log("🔥 /login route hit");
+    console.log("➡️ Request body:", req.body);
+    next(); // continue to actual loginUser function
+  }, loginUser);
 module.exports = router;
 
 
