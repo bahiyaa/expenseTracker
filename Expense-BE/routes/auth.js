@@ -31,6 +31,10 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ message: "User not found" });
         }
 
+        // Debugging: log the entered password and the stored hash
+        console.log("Entered password:", password);
+        console.log("Stored hash:", user.password);
+
         const isMatch = await bcrypt.compare(password, user.password);
         console.log("🔍 Password match:", isMatch);
 
@@ -40,7 +44,6 @@ router.post("/login", async (req, res) => {
         }
 
         console.log("🔐 Creating JWT...");
-        console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
         const accessToken = jwt.sign(
             {
@@ -60,6 +63,7 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ message: "Something went wrong", error: err.message });
     }
 });
+
 
 
 module.exports = router;

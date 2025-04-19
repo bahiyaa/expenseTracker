@@ -62,9 +62,11 @@ mongoose.connect(process.env.DB_CONNECTION).then((res) => {
     console.log(e)
 })
 
-app.use((err, req, res, next) => {
-    console.error("💥 Unhandled Error:", err.stack);
-    res.status(500).json({ message: "Internal Server Error", error: err.message });
+app.use((req, res, next) => {
+    console.log(`🚀 Request Method: ${req.method}, URL: ${req.originalUrl}`);
+    console.log("📦 Request Body:", req.body);
+    console.log("Authorization Header:", req.headers.authorization); // Check if Authorization is being sent
+    next();
 });
 
 // start server
