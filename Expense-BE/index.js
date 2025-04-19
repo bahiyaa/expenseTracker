@@ -28,6 +28,7 @@ app.use((req, res, next) => {
     console.log("Authorization Header:", req.headers.authorization);
     next();
 });
+app.use(express.json());
 
 
 // ✅ Debug Middleware to Log All Incoming Requests
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
     console.log("📦 Request Body:", req.body);
     next();
 });
-app.use(express.json());
+
 
 app.get("/", (req, res) => {
     res.send("Welcome to the Expense Tracker API");
