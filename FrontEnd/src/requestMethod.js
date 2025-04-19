@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://expense-tracker-be-4ods.onrender.com/v1"; // ✅ Your backend API URL
+const BASE_URL = "https://expensetrackerbackend-l6jr.onrender.com/v1"; // ✅ Your backend API URL
 
 // ✅ Public requests (No authentication required)
 export const publicRequest = axios.create({
