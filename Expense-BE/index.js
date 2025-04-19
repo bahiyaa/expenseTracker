@@ -19,7 +19,7 @@ const app = express();
 app.use(cors({
     origin: [
         "https://expense-tracker-8onam6bl6-bahiyas-projects.vercel.app",
-        "https://expensetrackeruser-j3yxrqsxg-bahiyas-projects.vercel.app"
+        "https://expensetrackeruser-dnv9pkxkk-bahiyas-projects.vercel.app"
     ],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"]
