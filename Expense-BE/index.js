@@ -16,7 +16,10 @@ const adminExpenseRoute=require("./routes/expense")
 const app=express();
 // MIDDLEWARE
 app.use(cors({
-    origin: ["https://expense-tracker-8onam6bl6-bahiyas-projects.vercel.app","https://expensetrackeruser-j3yxrqsxg-bahiyas-projects.vercel.app"],
+    origin: [
+      "https://expense-tracker-8onam6bl6-bahiyas-projects.vercel.app", 
+      "https://expensetrackeruser-j3yxrqsxg-bahiyas-projects.vercel.app"
+    ],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"]
   }));
@@ -28,10 +31,10 @@ app.use(express.json());
 
 // ✅ Debug Middleware to Log All Incoming Requests
 app.use((req, res, next) => {
-    console.log("📝 Request Headers:", req.headers);
+    console.log(`🚀 Request Method: ${req.method}, URL: ${req.originalUrl}`);
     next();
-});
-
+  });
+  
 
 // ROUTES
 app.get("/", (req, res) => {
