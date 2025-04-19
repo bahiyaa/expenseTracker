@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import banner from '../assets/banner.jpg';
+import banner from '../assets/banners.jpg';
 
 function Login() {
   const [email, setEmail] = useState("");
