@@ -144,7 +144,7 @@ function Login() {
     if (email && password) {
       dispatch(loginStart());
       try {
-        const res = await publicRequest.post("/auth/login", {
+        const res = await publicRequest.post("/auth/loginuser", {
           email,
           password,
         });
