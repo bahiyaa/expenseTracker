@@ -14,6 +14,7 @@ const adminIncomeRoutes=require("./routes/adminIncome")
 const adminExpenseRoute=require("./routes/expense")
 
 const app=express();
+
 // MIDDLEWARE
 app.use(cors({
     origin: [
@@ -27,19 +28,20 @@ app.use((req, res, next) => {
     console.log("Authorization Header:", req.headers.authorization);
     next();
 });
-app.use(express.json());
+
 
 // ✅ Debug Middleware to Log All Incoming Requests
 app.use((req, res, next) => {
     console.log(`🚀 Request Method: ${req.method}, URL: ${req.originalUrl}`);
     next();
   });
+  app.use(express.json());
   
 
 // ROUTES
-app.get("/", (req, res) => {
-    res.send("Welcome to the Expense Tracker API");
-  });
+// app.get("/", (req, res) => {
+//     res.send("Welcome to the Expense Tracker API");
+//   });
 app.use("/v1/auth",authRoute)
 app.use("/v1/users",userRoute)
 app.use("/v1/userexpense",expenseRoute)
