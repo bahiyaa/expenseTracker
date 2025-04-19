@@ -6,17 +6,12 @@ try {
 } catch (e) {
   console.warn("Invalid JSON in localStorage for 'user'");
 }
+
 const initialState = {
-  currentUser: savedUser,
+  currentUser: JSON.parse(localStorage.getItem("user")) || null, // ✅ Load user from localStorage
   isFetching: false,
   error: false,
 };
-
-// const initialState = {
-//   currentUser: JSON.parse(localStorage.getItem("user")) || null, // ✅ Load user from localStorage
-//   isFetching: false,
-//   error: false,
-// };
 
 const userSlice = createSlice({
   name: "user",
