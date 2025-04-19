@@ -38,7 +38,7 @@ const registerUser = async (req, res) => {
       <p>Your account has been created successfully on FinFlow.</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Password:</strong> ${password}</p>
-      <p>You can log in here: <a href="http://localhost:5173/login">FinFlow Login</a></p>
+      <p>You can log in here: <a href="https://expense-tracker-userfrontend-2azxn4cib-bahiyas-projects.vercel.app/login">FinFlow Login</a></p>
       <br />
       <p>Best regards,<br />FinFlow Team</p>
     `;

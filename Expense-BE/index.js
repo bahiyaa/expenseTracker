@@ -16,7 +16,7 @@ const adminExpenseRoute=require("./routes/expense")
 const app=express();
 // MIDDLEWARE
 app.use(cors({
-    origin: ["https://expense-tracker-gamma-three-69.vercel.app","https://expense-tracker-userfrontend-lx1glbk24-bahiyas-projects.vercel.app/"],
+    origin: ["https://expense-tracker-8onam6bl6-bahiyas-projects.vercel.app","https://expensetrackeruser-j3yxrqsxg-bahiyas-projects.vercel.app"],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"]
   }));

@@ -14,10 +14,10 @@ router.get("/test", (req, res) => {
   });
 
   router.post("/login", (req, res, next) => {
-    console.log("🔥 /login route hit");
+    console.log("🔥 /v1/auth/login route hit");
     console.log("➡️ Request body:", req.body);
-    next(); // continue to actual loginUser function
-  }, loginUser);
+    next();
+  }, loginUser); // This calls the loginUser controller
 module.exports = router;
 
 
