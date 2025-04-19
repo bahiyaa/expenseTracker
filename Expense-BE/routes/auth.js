@@ -10,11 +10,11 @@ const jwt = require("jsonwebtoken");
 
 router.post("/register", registerUser)
 
-//LOGIN
-router.get("/test", (req, res) => {
-    console.log("✅ /v1/auth/test hit");
-    res.send("Auth routes are connected!");
-});
+// //LOGIN
+// router.get("/test", (req, res) => {
+//     console.log("✅ /v1/auth/test hit");
+//     res.send("Auth routes are connected!");
+// });
 router.post("/login", async (req, res) => {
     try {
       console.log("🔐 User login request received");

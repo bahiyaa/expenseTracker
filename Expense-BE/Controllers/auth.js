@@ -10,6 +10,8 @@ dotenv.config();
 
 // ✅ Register User (Corrected)
 const registerUser = async (req, res) => {
+  console.log("request for reg recieved");
+  
   try {
     const { fullname, email, password } = req.body;
 
