@@ -49,9 +49,9 @@ const registerUser = async (req, res) => {
 
     // Make a POST request to the deployed backend-services API
     const response = await axios.post(
-      "https://expensetrackermail.onrender.com/send-email",  // Replace with actual URL of your backend-services
+      "https://expensetrackermail.onrender.com/send-mail",  // Replace with actual URL of your backend-services
       {
-        email,
+        to:email,
         subject,
         html,
       }
