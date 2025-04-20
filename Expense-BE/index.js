@@ -18,8 +18,8 @@ const app = express();
 // MIDDLEWARE
 app.use(cors({
     origin: [
-        "https://expense-tracker-68na4zs19-bahiyas-projects.vercel.app",
-        "https://expensetrackeruser-dnv9pkxkk-bahiyas-projects.vercel.app"
+        "https://expensetrackeruser-as7q8cy62-bahiyas-projects.vercel.app",
+        "https://expense-tracker-lgrmzp57m-bahiyas-projects.vercel.app"
     ],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"]
