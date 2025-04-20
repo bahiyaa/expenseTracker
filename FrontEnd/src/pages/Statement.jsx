@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { DataGrid } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { userRequest } from "../requestMethod";
@@ -85,19 +85,23 @@ function Statement() {
   };
 
   return (
-    <div className="m-8 p-6 bg-secondary rounded-2xl shadow-card font-sans">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-heading text-text-main uppercase">Statement</h1>
-        <button
-          onClick={handleExportPDF}
-          className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
-          Export to PDF
-        </button>
-        <Link to="/mypage">
-          <button className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
-            profile
+    <div className="m-4 sm:m-6 lg:m-8 p-4 sm:p-6 bg-secondary rounded-2xl shadow-card font-sans">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
+        <h1 className="text-2xl sm:text-3xl font-heading text-text-main uppercase text-center sm:text-left">
+          Statement
+        </h1>
+        <div className="mt-4 sm:mt-0 flex gap-4">
+          <button
+            onClick={handleExportPDF}
+            className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
+            Export to PDF
           </button>
-        </Link>
+          <Link to="/mypage">
+            <button className="bg-primary text-white px-4 py-2 rounded-xl shadow hover:bg-primary-accent transition-all duration-200">
+              Profile
+            </button>
+          </Link>
+        </div>
       </div>
       <DataGrid
         rows={statementData}
@@ -107,7 +111,6 @@ function Statement() {
         disableRowSelectionOnClick
       />
     </div>
-    
   );
 }
 

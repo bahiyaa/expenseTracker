@@ -4,14 +4,25 @@ import logo from '../assets/logo.jpg';
 
 function Navbar() {
   return (
-    <div className='h-[100px] bg-primary flex items-center justify-between px-10'>
-      <img src={logo} alt="error" height="80px" width="80px" />
-      <Link to='/login'>
-        <button className='bg-primary-accent text-text-main font-sans p-[10px] text-cursor-pointer border-none w-[100px] border-border-radius'>LOGIN</button>
-      </Link>
+    <div className="bg-primary text-secondary px-6 py-4 md:py-6 font-sans">
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center">
+        
+        {/* Logo Section */}
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="FinFlow Logo" className="h-20 w-20 object-contain" />
+        </div>
 
+        {/* Login Button */}
+        <div>
+          <Link to="/login">
+            <button className="bg-primary-accent text-text-main font-sans px-4 py-2 rounded-xl border-none hover:bg-primary transition">
+              LOGIN
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default Navbar
+export default Navbar;

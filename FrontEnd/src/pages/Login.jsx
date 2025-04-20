@@ -6,7 +6,6 @@ import { login } from "../redux/apiCalls";
 import { useNavigate } from "react-router-dom";
 import banner from '../assets/banner.jpg';
 
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,16 +43,20 @@ function Login() {
     <div className="bg-background min-h-screen font-sans text-text-main">
       <Navbar />
 
+      {/* Main Content */}
       <div className="flex flex-col lg:flex-row items-center justify-evenly py-16 px-6 lg:px-20">
+        {/* Banner Image */}
         <img
           src={banner}
           alt="Login Banner"
           className="w-[300px] lg:w-[350px] rounded-2xl shadow-card"
         />
 
+        {/* Login Form */}
         <div className="bg-card-bg w-full max-w-md mt-10 lg:mt-0 p-8 rounded-2xl shadow-card">
           <h2 className="text-2xl font-heading mb-6 text-center">Welcome Back</h2>
 
+          {/* Email Input */}
           <input
             type="email"
             placeholder="Enter your Email"
@@ -61,6 +64,7 @@ function Login() {
             className="w-full p-4 mb-4 border border-secondary-accent rounded-xl bg-secondary text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
+          {/* Password Input */}
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -76,6 +80,7 @@ function Login() {
             </span>
           </div>
 
+          {/* Login Button */}
           <button
             onClick={handleLogin}
             disabled={loading}
@@ -88,6 +93,7 @@ function Login() {
             {loading ? "Loading..." : "Login"}
           </button>
 
+          {/* Error Message */}
           {error && (
             <span className="text-error block text-center mt-4">
               Invalid email or password
@@ -102,7 +108,3 @@ function Login() {
 }
 
 export default Login;
-
-
-
-

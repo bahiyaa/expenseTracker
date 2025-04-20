@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { FaUser } from 'react-icons/fa'
-import { FaWallet } from "react-icons/fa";
-import { IoCardOutline } from "react-icons/io5";
-import { PiHandCoins } from "react-icons/pi";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { FaUser, FaWallet } from 'react-icons/fa';
+import { IoCardOutline } from 'react-icons/io5';
+import { PiHandCoins } from 'react-icons/pi';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { publicRequest } from '../requestMethod';
-import { logOut } from "../redux/userRedux";
+import { logOut } from '../redux/userRedux';
 import { userRequest } from '../requestMethod'; // Use the authenticated request
 
 function MyPage() {
@@ -18,74 +17,55 @@ function MyPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
-
   const handleOpen = () => {
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
+  
   const handleLogout = () => {
     dispatch(logOut());
-    setIncomes([]);  // Clear stored incomes
+    setIncomes([]); // Clear stored incomes
     setExpenses([]); // Clear stored expenses
-    navigate("/login");
+    navigate('/login');
   };
+  
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const res = await publicRequest.get(`/income?email=${user.currentUser.email}`); // Use GET instead of POST
+        const res = await publicRequest.get(`/income?email=${user.currentUser.email}`);
         SetInfo(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getInfo();
-  }, [user]); // Ensure it only runs when the user changes
+  }, [user]);
 
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const incomeRes = await publicRequest.get("/income"); // Fetch incomes
-  //       console.log("Income Data:", incomeRes.data);
-  //       setIncomes(incomeRes.data);
-
-  //       const expenseRes = await publicRequest.get("/expense"); // Fetch expenses
-  //       setExpenses(expenseRes.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const incomeRes = await userRequest.get("/userincome"); // ✅ Send token
+        const incomeRes = await userRequest.get('/userincome'); // ✅ Send token
         setIncomes(incomeRes.data);
 
-        const expenseRes = await userRequest.get("/userexpense");
+        const expenseRes = await userRequest.get('/userexpense');
         setExpenses(expenseRes.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
   }, []);
 
-  // Calculate total income
   const totalIncome = incomes.reduce((sum, income) => sum + income.Amount, 0);
-
-  // Calculate total expenses
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.Amount, 0);
 
   return (
-    <div>
+    <div className="font-sans">
       {/* User Profile Menu */}
-      <div className="relative flex items-end justify-end mr-[20%] mt-[6%] text-primary font-medium cursor-pointer font-sans">
+      <div className="relative flex items-end justify-end mr-[20%] mt-[6%] text-primary font-medium cursor-pointer">
         <div className="flex items-center gap-2" onClick={handleOpen}>
           <FaUser />
           {user.currentUser.fullname}
@@ -99,9 +79,9 @@ function MyPage() {
               <Link to="/expense">
                 <li className="hover:text-white hover:bg-primary-accent w-full text-center rounded-md py-1 cursor-pointer">Expense</li>
               </Link>
-             <Link to='/statement'>
-             <li className="hover:text-white hover:bg-primary-accent w-full text-center rounded-md py-1 cursor-pointer">Statement</li>
-             </Link>
+              <Link to="/statement">
+                <li className="hover:text-white hover:bg-primary-accent w-full text-center rounded-md py-1 cursor-pointer">Statement</li>
+              </Link>
               <li
                 className="hover:text-white hover:bg-error w-full text-center rounded-md py-1 cursor-pointer"
                 onClick={handleLogout}
@@ -114,8 +94,8 @@ function MyPage() {
       </div>
 
       {/* Welcome Header */}
-      <div className="flex items-center justify-center mt-[6%] mx-[10%]">
-        <h2 className="text-text-muted text-3xl text-center font-heading leading-relaxed max-w-4xl uppercase">
+      <div className="flex items-center justify-center mt-[6%] mx-[10%] text-center">
+        <h2 className="text-text-muted text-3xl sm:text-2xl text-center font-heading leading-relaxed max-w-4xl uppercase">
           WELCOME BACK, {user.currentUser.fullname}! <br /> TRACK, SAVE, AND STAY IN CONTROL OF YOUR FINANCES. 💰🚀
         </h2>
       </div>
@@ -123,7 +103,7 @@ function MyPage() {
       {/* Summary Cards */}
       <div className="flex flex-wrap justify-center gap-8 mt-12 mx-[10%] font-sans">
         {/* Total Balance */}
-        <div className="bg-card-bg text-text-main h-[150px] w-[350px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
+        <div className="bg-card-bg text-text-main h-[150px] w-[350px] sm:w-[300px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
           <div className="flex items-center gap-4">
             <div className="bg-secondary-accent w-16 h-16 rounded-full flex items-center justify-center">
               <IoCardOutline className="text-2xl text-text-main" />
@@ -134,7 +114,7 @@ function MyPage() {
         </div>
 
         {/* Total Income */}
-        <div className="bg-card-bg text-text-main h-[150px] w-[350px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
+        <div className="bg-card-bg text-text-main h-[150px] w-[350px] sm:w-[300px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
           <div className="flex items-center gap-4">
             <div className="bg-secondary-accent w-16 h-16 rounded-full flex items-center justify-center">
               <FaWallet className="text-xl text-text-main" />
@@ -145,7 +125,7 @@ function MyPage() {
         </div>
 
         {/* Total Expense */}
-        <div className="bg-card-bg text-text-main h-[150px] w-[350px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
+        <div className="bg-card-bg text-text-main h-[150px] w-[350px] sm:w-[300px] shadow-card rounded-2xl p-4 flex flex-col justify-center">
           <div className="flex items-center gap-4">
             <div className="bg-secondary-accent w-16 h-16 rounded-full flex items-center justify-center">
               <PiHandCoins className="text-2xl text-text-main" />
@@ -156,8 +136,7 @@ function MyPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default MyPage
-
+export default MyPage;

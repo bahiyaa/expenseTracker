@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react' 
 import { ToastContainer, toast } from 'react-toastify'
 import { userRequest } from "../requestMethod";
 import { publicRequest } from "../requestMethod";
 import { Link } from 'react-router-dom';
+
 const AddIncome = () => {
   const [inputs, setInputs] = useState({})
 
@@ -11,7 +12,6 @@ const AddIncome = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-
 
   const handleSubmit = async () => {
     try {
@@ -37,9 +37,6 @@ const AddIncome = () => {
       toast.error("Failed to add income. Please try again.");
     }
   };
-  
-  
-
 
   return (
     <div className="m-8 bg-card-bg p-8 rounded-2xl shadow-card font-sans">
@@ -47,8 +44,10 @@ const AddIncome = () => {
         Add Income
       </h2>
 
+      {/* Form Container */}
       <div className="flex flex-col md:flex-row items-start gap-8">
-        <div className="ml-4">
+        <div className="ml-4 w-full max-w-[500px]">
+          {/* Income Source Input */}
           <div className="flex flex-col my-4">
             <label className="text-text-main font-medium mb-2">Income Source</label>
             <input
@@ -57,10 +56,11 @@ const AddIncome = () => {
               name="category"
               onChange={handleChange}
               value={inputs.category || ""}
-              className="border border-text-muted rounded-xl p-3 w-60 focus:outline-none focus:ring-2 focus:ring-primary-accent"
+              className="border border-text-muted rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary-accent"
             />
           </div>
 
+          {/* Amount Input */}
           <div className="flex flex-col my-4">
             <label className="text-text-main font-medium mb-2">Amount</label>
             <input
@@ -69,10 +69,11 @@ const AddIncome = () => {
               name="Amount"
               onChange={handleChange}
               value={inputs.Amount || ""}
-              className="border border-text-muted rounded-xl p-3 w-60 focus:outline-none focus:ring-2 focus:ring-primary-accent"
+              className="border border-text-muted rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary-accent"
             />
           </div>
 
+          {/* Date Input */}
           <div className="flex flex-col my-4">
             <label className="text-text-main font-medium mb-2">Date</label>
             <input
@@ -80,25 +81,27 @@ const AddIncome = () => {
               name="transactionDate"
               onChange={handleChange}
               value={inputs.transactionDate || ""}
-              className="border border-text-muted rounded-xl p-3 w-60 focus:outline-none focus:ring-2 focus:ring-primary-accent"
+              className="border border-text-muted rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary-accent"
             />
           </div>
 
-          <div className="flex gap-4 mt-6">
+          {/* Buttons Container */}
+          <div className="flex gap-4 mt-6 flex-col sm:flex-row">
             <button
-              className="bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary-accent transition-all duration-200"
+              className="bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary-accent transition-all duration-200 w-full sm:w-auto"
               onClick={handleSubmit}
             >
               Add Income
             </button>
 
             <Link to="/income">
-              <button className="bg-secondary-accent text-text-main px-4 py-2 rounded-xl hover:bg-secondary transition-all duration-200">
+              <button className="bg-secondary-accent text-text-main px-4 py-2 rounded-xl hover:bg-secondary transition-all duration-200 w-full sm:w-auto mt-4 sm:mt-0">
                 Go Back
               </button>
             </Link>
           </div>
 
+          {/* Toast Notification */}
           <ToastContainer />
         </div>
       </div>
@@ -106,4 +109,4 @@ const AddIncome = () => {
   )
 }
 
-export default AddIncome
+export default AddIncome;
