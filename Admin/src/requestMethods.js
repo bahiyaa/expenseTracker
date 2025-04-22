@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // ✅ Base Axios Instance
-const BASE_URL = "https://expense-tracker-bxaaujs7i-bahiyas-projects.vercel.app/v1";
+const BASE_URL = "https://expensetracker-be-1bfy.onrender.com/v1";
 
 // ✅ Get token from localStorage
 const adminToken = sessionStorage.getItem("adminToken");

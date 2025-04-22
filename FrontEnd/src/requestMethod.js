@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://expense-tracker-bxaaujs7i-bahiyas-projects.vercel.app/v1"; // ✅ Your backend API URL
+const BASE_URL = "https://expensetracker-be-1bfy.onrender.com/v1"; // ✅ Your backend API URL
 
 // ✅ Public requests (No authentication required)
 export const publicRequest = axios.create({

@@ -12,7 +12,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("https://expense-tracker-bxaaujs7i-bahiyas-projects.vercel.app/v1/admin/login", {
+      const res = await axios.post("https://expensetracker-be-1bfy.onrender.com/v1/admin/login", {
         email,
         password,
       });
