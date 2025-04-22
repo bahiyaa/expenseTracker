@@ -46,7 +46,7 @@ const NewUser = () => {
 
   return (
     <div className="m-8 p-6 bg-card-bg shadow-card rounded-2xl max-w-xl mx-auto">
-      <h2 className="text-2xl font-heading text-text-main mb-6">Register New User</h2>
+      <h2 className="text-2xl font-heading text-text-main mb-6 text-center sm:text-left">Register New User</h2>
 
       <div className="flex flex-col mb-4">
         <label className="mb-2 text-text-muted font-medium">Full Name</label>
@@ -76,7 +76,7 @@ const NewUser = () => {
 
       <button
         onClick={handleSubmit}
-        className="bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200"
+        className="bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200 w-full sm:w-auto"
       >
         Create
       </button>

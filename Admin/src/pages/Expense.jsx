@@ -63,9 +63,11 @@ const Expense = () => {
   };
 
   return (
-    <div className="m-8 p-6 bg-background rounded-2xl shadow-card">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-heading text-text-main">Expense Details</h1>
+    <div className="m-4 sm:m-8 p-6 bg-background rounded-2xl shadow-card">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+        <h1 className="text-2xl sm:text-3xl font-heading text-text-main mb-4 sm:mb-0">
+          Expense Details
+        </h1>
         <Link to="/addexpense">
           <button className="bg-primary hover:bg-primary-accent text-white font-semibold px-4 py-2 rounded-xl shadow-md transition">
             + Add Expense
@@ -73,30 +75,32 @@ const Expense = () => {
         </Link>
       </div>
       <div className="bg-card-bg rounded-xl shadow-card p-4">
-        <DataGrid
-          rows={data}
-          getRowId={(row) => row._id}
-          columns={columns}
-          checkboxSelection
-          disableRowSelectionOnClick
-          sx={{
-            fontFamily: 'Inter',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '1rem',
-            boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: '#EFE6DD',
-              color: '#3E2C1C',
-              fontWeight: 'bold',
-            },
-            '& .MuiDataGrid-cell': {
-              color: '#3E2C1C',
-            },
-            '& .MuiCheckbox-root': {
-              color: '#A67B5B',
-            },
-          }}
-        />
+        <div style={{ height: '400px', width: '100%' }}>
+          <DataGrid
+            rows={data}
+            getRowId={(row) => row._id}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            sx={{
+              fontFamily: 'Inter',
+              backgroundColor: '#FFFFFF',
+              borderRadius: '1rem',
+              boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#EFE6DD',
+                color: '#3E2C1C',
+                fontWeight: 'bold',
+              },
+              '& .MuiDataGrid-cell': {
+                color: '#3E2C1C',
+              },
+              '& .MuiCheckbox-root': {
+                color: '#A67B5B',
+              },
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -31,43 +31,49 @@ const AddIncome = () => {
   };
 
   return (
-    <div className="m-6 bg-card p-8 rounded-xl shadow-lg">
-      <h2 className="text-xl font-semibold text-primary mb-6">Add Income</h2>
+    <div className="mx-4 sm:mx-6 md:mx-10 my-6 bg-card-bg p-6 sm:p-8 rounded-2xl shadow-card">
+      <h2 className="text-lg sm:text-xl font-semibold text-primary mb-6">Add Income</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-4">
-          <label className="text-muted">Income Source</label>
-          <input
-            type="text"
-            placeholder="Freelancing"
-            name="category"
-            onChange={handleChange}
-            value={inputs.category || ''}
-            className="border border-border bg-background text-sm p-3 rounded-md outline-none focus:border-primary"
-          />
+          <div>
+            <label className="block text-sm text-text-muted mb-1">Income Source</label>
+            <input
+              type="text"
+              placeholder="Freelancing"
+              name="category"
+              onChange={handleChange}
+              value={inputs.category || ''}
+              className="w-full border border-text-muted bg-background text-sm p-3 rounded-lg outline-none focus:border-primary"
+            />
+          </div>
 
-          <label className="text-muted">Amount</label>
-          <input
-            type="number"
-            placeholder="₹600"
-            name="amount"
-            onChange={handleChange}
-            value={inputs.amount || ''}
-            className="border border-border bg-background text-sm p-3 rounded-md outline-none focus:border-primary"
-          />
+          <div>
+            <label className="block text-sm text-text-muted mb-1">Amount</label>
+            <input
+              type="number"
+              placeholder="₹600"
+              name="amount"
+              onChange={handleChange}
+              value={inputs.amount || ''}
+              className="w-full border border-text-muted bg-background text-sm p-3 rounded-lg outline-none focus:border-primary"
+            />
+          </div>
 
-          <label className="text-muted">Transaction Date</label>
-          <input
-            type="date"
-            name="transactionDate"
-            onChange={handleChange}
-            value={inputs.transactionDate || ''}
-            className="border border-border bg-background text-sm p-3 rounded-md outline-none focus:border-primary"
-          />
+          <div>
+            <label className="block text-sm text-text-muted mb-1">Transaction Date</label>
+            <input
+              type="date"
+              name="transactionDate"
+              onChange={handleChange}
+              value={inputs.transactionDate || ''}
+              className="w-full border border-text-muted bg-background text-sm p-3 rounded-lg outline-none focus:border-primary"
+            />
+          </div>
 
           <button
             onClick={handleSubmit}
-            className="mt-4 bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition"
+            className="w-full sm:w-auto mt-4 bg-primary text-white px-6 py-3 rounded-xl hover:bg-primary/90 transition"
           >
             Add Income
           </button>

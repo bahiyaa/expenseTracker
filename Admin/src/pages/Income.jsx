@@ -3,7 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { publicRequest } from '../requestMethods';
-import { adminRequest } from '../requestMethods';
 
 const Income = () => {
   const [data, setData] = useState([]);
@@ -56,9 +55,8 @@ const Income = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Make sure the admin is calling the correct API route
       await publicRequest.delete(`/adminincome/${id}`);
-      setData((prev) => prev.filter((item) => item._id !== id)); // Update the frontend state
+      setData((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
       console.error(error);
     }
@@ -75,30 +73,32 @@ const Income = () => {
         </Link>
       </div>
       <div className="bg-card-bg rounded-xl shadow-card p-4">
-        <DataGrid
-          rows={data}
-          getRowId={(row) => row._id}
-          columns={columns}
-          checkboxSelection
-          disableRowSelectionOnClick
-          sx={{
-            fontFamily: 'Inter',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '1rem',
-            boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: '#EFE6DD',
-              color: '#3E2C1C',
-              fontWeight: 'bold',
-            },
-            '& .MuiDataGrid-cell': {
-              color: '#3E2C1C',
-            },
-            '& .MuiCheckbox-root': {
-              color: '#A67B5B',
-            },
-          }}
-        />
+        <div className="w-full overflow-x-auto">
+          <DataGrid
+            rows={data}
+            getRowId={(row) => row._id}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            sx={{
+              fontFamily: 'Inter',
+              backgroundColor: '#FFFFFF',
+              borderRadius: '1rem',
+              boxShadow: '0 4px 10px rgba(28, 5, 5, 0.05)',
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#EFE6DD',
+                color: '#3E2C1C',
+                fontWeight: 'bold',
+              },
+              '& .MuiDataGrid-cell': {
+                color: '#3E2C1C',
+              },
+              '& .MuiCheckbox-root': {
+                color: '#A67B5B',
+              },
+            }}
+          />
+        </div>
       </div>
     </div>
   );

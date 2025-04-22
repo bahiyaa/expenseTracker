@@ -50,15 +50,11 @@ const AdminProfile = () => {
     }
   };
 
-//   if (!admin) {
-//     return <div className="p-6 text-center text-error text-lg font-medium">No admin logged in</div>;
-//   }
-
   return (
-    <div className="max-w-xl mx-auto p-6 bg-card-bg shadow-card rounded-2xl font-sans text-text-main">
-      <h2 className="text-3xl font-heading mb-4 text-primary">Admin Profile</h2>
+    <div className="max-w-4xl mx-auto p-6 sm:p-8 bg-card-bg shadow-card rounded-2xl font-sans text-text-main">
+      <h2 className="text-2xl sm:text-3xl font-heading mb-4 text-primary">Admin Profile</h2>
 
-      <div className="space-y-2 text-[16px] mb-6">
+      <div className="space-y-2 text-base sm:text-lg mb-6">
         <p>
           <strong>Email:</strong> {admin.email}
         </p>
@@ -97,7 +93,7 @@ const AdminProfile = () => {
 
         <button
           type="submit"
-          className="bg-primary text-white px-5 py-2 rounded-xl hover:bg-primary-accent transition duration-200"
+          className="w-full sm:w-auto bg-primary text-white px-5 py-2 rounded-xl hover:bg-primary-accent transition duration-200"
         >
           Change Password
         </button>
@@ -110,7 +106,7 @@ const AdminProfile = () => {
 
       <button
         onClick={handleLogout}
-        className="bg-error text-white px-5 py-2 rounded-xl hover:bg-[#bf5f52] transition duration-200"
+        className="w-full sm:w-auto bg-error text-white px-5 py-2 rounded-xl hover:bg-[#bf5f52] transition duration-200"
       >
         Logout
       </button>

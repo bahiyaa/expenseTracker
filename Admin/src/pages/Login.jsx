@@ -41,25 +41,24 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6 font-sans">
-      <div className="flex gap-16 items-center">
-        <div className="text-center">
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-16 items-center">
+        <div className="text-center sm:text-left">
           <h2 className="text-4xl font-heading text-primary mb-6">FinFlow</h2>
           <img
             src={banner}
             alt="FinFlow"
-            width="300"
-            className="rounded-xl shadow-card"
+            className="rounded-xl shadow-card sm:w-[300px] w-full"
           />
         </div>
 
-        <div className="w-[400px] bg-card-bg rounded-2xl shadow-card p-8">
+        <div className="w-full sm:w-[400px] bg-card-bg rounded-2xl shadow-card p-8">
           <h3 className="text-2xl font-semibold text-text-main mb-6 text-center">
             Admin Login
           </h3>
 
           <input
             type="text"
-            autoComplete="new-email" 
+            autoComplete="new-email"
             placeholder="Enter your Email"
             className="w-full p-4 mb-4 border border-secondary-accent rounded-xl outline-none text-text-main placeholder-text-muted"
             value={email}

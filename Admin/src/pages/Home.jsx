@@ -5,12 +5,10 @@ import { PiHandCoins } from "react-icons/pi";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { publicRequest } from '../requestMethods';
 
-
 function Home() {
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,10 +33,10 @@ function Home() {
   useEffect(() => {
     const fetchRecentUsers = async () => {
       try {
-        const res = await publicRequest.get('/users'); // Assuming this is publicly accessible
+        const res = await publicRequest.get('/users');
         const latestUsers = res.data
-          .slice(-5) // last 5 users
-          .reverse(); // show most recent first
+          .slice(-5)
+          .reverse();
         setRecentUsers(latestUsers);
       } catch (error) {
         console.error('Failed to fetch users:', error);
@@ -53,26 +51,24 @@ function Home() {
       {/* Top Cards */}
       <div className="flex flex-wrap gap-6 justify-start mt-6">
         {/* Card Component */}
-        {[
-          {
-            title: "Total Balance",
-            value: totalBalance,
-            icon: <IoCardOutline className="text-xl text-white" />,
-          },
-          {
-            title: "Total Income",
-            value: totalIncome,
-            icon: <FaWallet className="text-lg text-white" />,
-          },
-          {
-            title: "Total Expense",
-            value: totalExpenses,
-            icon: <PiHandCoins className="text-xl text-white" />,
-          },
-        ].map((card, idx) => (
+        {[{
+          title: "Total Balance",
+          value: totalBalance,
+          icon: <IoCardOutline className="text-xl text-white" />
+        },
+        {
+          title: "Total Income",
+          value: totalIncome,
+          icon: <FaWallet className="text-lg text-white" />
+        },
+        {
+          title: "Total Expense",
+          value: totalExpenses,
+          icon: <PiHandCoins className="text-xl text-white" />
+        }].map((card, idx) => (
           <div
             key={idx}
-            className="bg-card-bg shadow-card w-[320px] h-[160px] rounded-2xl p-4 flex items-center gap-4"
+            className="bg-card-bg shadow-card w-full sm:w-[320px] h-[160px] rounded-2xl p-4 flex items-center gap-4"
           >
             <div className="bg-primary w-14 h-14 rounded-full flex items-center justify-center">
               {card.icon}
@@ -87,51 +83,48 @@ function Home() {
 
       {/* Charts and Users */}
       <div className="flex flex-wrap justify-between mt-10 gap-6">
-      <div className="bg-card-bg shadow-card rounded-xl p-4 w-[500px] h-[450px]">
-  <h2 className="font-heading text-lg text-text-main mb-4">Overview</h2>
-  <PieChart
-    series={[
-      {
-        data: [
-          { id: 0, value: totalIncome, label: 'Total Income' },
-          { id: 1, value: totalExpenses, label: 'Total Expense' },
-          { id: 2, value: totalBalance, label: 'Total Balance' },
-        ],
-        innerRadius: 30,
-        outerRadius: 100,
-        paddingAngle: 5,
-        cornerRadius: 5,
-        startAngle: -45,
-        endAngle: 225,
-        cx: 150,
-        cy: 150,
-      },
-    ]}
-    sx={{
-      '--ChartsLegend-labelFontFamily': 'Inter',
-      '--ChartsLegend-labelColor': '#3E2C1C',
-      '--ChartsLegend-labelFontSize': '14px',
-    }}
-    slotProps={{
-      legend: {
-        labelStyle: {
-          fill: '#3E2C1C', // text-main
-          fontFamily: 'Inter',
-        },
-      },
-    }}
-    colors={['#A67B5B', '#D8BFAA', '#CBBBA0']} // your primary, accent, and secondary-accent
-  />
-</div>
+        <div className="bg-card-bg shadow-card rounded-xl p-4 w-full sm:w-[500px] h-[450px]">
+          <h2 className="font-heading text-lg text-text-main mb-4">Overview</h2>
+          <PieChart
+            series={[{
+              data: [
+                { id: 0, value: totalIncome, label: 'Total Income' },
+                { id: 1, value: totalExpenses, label: 'Total Expense' },
+                { id: 2, value: totalBalance, label: 'Total Balance' }
+              ],
+              innerRadius: 30,
+              outerRadius: 100,
+              paddingAngle: 5,
+              cornerRadius: 5,
+              startAngle: -45,
+              endAngle: 225,
+              cx: 150,
+              cy: 150
+            }]}
+            sx={{
+              '--ChartsLegend-labelFontFamily': 'Inter',
+              '--ChartsLegend-labelColor': '#3E2C1C',
+              '--ChartsLegend-labelFontSize': '14px',
+            }}
+            slotProps={{
+              legend: {
+                labelStyle: {
+                  fill: '#3E2C1C',
+                  fontFamily: 'Inter',
+                }
+              }
+            }}
+            colors={['#A67B5B', '#D8BFAA', '#CBBBA0']}
+          />
+        </div>
 
-
-        <div className="bg-card-bg shadow-card rounded-xl p-6 w-[300px] h-[350px]">
+        <div className="bg-card-bg shadow-card rounded-xl p-6 w-full sm:w-[300px] h-[350px]">
           <h2 className="font-heading text-lg text-text-main mb-2">Recent Users</h2>
           <ol className="text-text-muted font-semibold list-decimal list-inside space-y-1 mt-2">
-        {recentUsers.map((user, index) => (
-          <li key={user._id}>{user.fullname}</li>
-        ))}
-      </ol>
+            {recentUsers.map((user) => (
+              <li key={user._id}>{user.fullname}</li>
+            ))}
+          </ol>
         </div>
       </div>
     </div>

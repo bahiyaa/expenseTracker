@@ -60,9 +60,9 @@ const UpdateExpense = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 bg-card-bg p-8 rounded-2xl shadow-card">
-      <h2 className="text-2xl font-heading text-text-main mb-6">Update Expense</h2>
+      <h2 className="text-2xl font-heading text-text-main mb-6 text-center sm:text-left">Update Expense</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="flex flex-col">
           <label className="mb-1 text-text-muted font-medium">Category</label>
           <input
@@ -101,7 +101,7 @@ const UpdateExpense = () => {
 
       <button
         onClick={handleUpdate}
-        className="mt-8 bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200"
+        className="mt-8 bg-primary hover:bg-primary-accent text-white px-6 py-3 rounded-xl font-medium transition duration-200 w-full sm:w-auto"
       >
         Update
       </button>

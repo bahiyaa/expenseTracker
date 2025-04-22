@@ -59,6 +59,7 @@ function Login() {
           {/* Email Input */}
           <input
             type="email"
+            autoComplete="new-email"
             placeholder="Enter your Email"
             onChange={(e) => setEmail(e.target.value.trim())}
             className="w-full p-4 mb-4 border border-secondary-accent rounded-xl bg-secondary text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary"
@@ -68,6 +69,7 @@ function Login() {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
+               autoComplete="new-password"
               placeholder="Enter your Password"
               onChange={(e) => setPassword(e.target.value.trim())}
               className="w-full p-4 pr-10 mb-4 border border-secondary-accent rounded-xl bg-secondary text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary"

@@ -49,11 +49,13 @@ const Users = () => {
   };
 
   return (
-    <div className="m-8 p-6 bg-background rounded-2xl shadow-card">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-heading text-text-main">User List</h1>
+    <div className="m-4 sm:m-8 p-4 sm:p-6 bg-background rounded-2xl shadow-card">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+        <h1 className="text-2xl sm:text-3xl font-heading text-text-main text-center sm:text-left mb-4 sm:mb-0">
+          User List
+        </h1>
         <Link to="/newuser">
-          <button className="bg-primary hover:bg-primary-accent text-white font-semibold px-4 py-2 rounded-xl shadow-md transition">
+          <button className="bg-primary hover:bg-primary-accent text-white font-semibold px-4 py-2 rounded-xl shadow-md transition w-full sm:w-auto">
             + New User
           </button>
         </Link>
@@ -80,6 +82,14 @@ const Users = () => {
             },
             '& .MuiCheckbox-root': {
               color: '#A67B5B !important',
+            },
+            '@media (max-width: 600px)': {
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: '0.9rem',
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: '0.85rem',
+              },
             },
           }}
         />
